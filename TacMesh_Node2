@@ -20,10 +20,11 @@
 
 // Update these with values suitable for your network.
 
-const char* ssid = "connectMe2";
+const char* ssid = "tac02";
 const char* pswd = "tacmesh*!";
-const char* mqtt_server = "192.168.116.154";
+const char* mqtt_server = "172.16.0.154";
 const char* topic = "wemos";    // rhis is the [root topic]
+const char* batterytopic = "tacmesh/battery2";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -37,30 +38,30 @@ bool operationmode = false;
 bool schedulemode = false;
 bool relaystate = false;
 bool updateonce = false;
-int relaypin = 2;
+int relaypin = 14;
 int offset = -10  ; // set the correction offset value
 int count;
-bool relayon = LOW;
-bool relayoff = HIGH;
-const char* batteryupdate = "tacmesh/battery2";
-int voltref = 1300;
+bool relayon = HIGH;
+bool relayoff = LOW;
+int minvolt = 0; //in milivolt
+int maxvolt = 2000; //in milivolt
 
 int status = WL_IDLE_STATUS;     // the starting Wifi radio's status
 
-//IPAddress local_IP(192, 168, 116, 183);
-//// Set your Gateway IP address
-//IPAddress gateway(192, 168, 116, 27);
-//IPAddress subnet(255, 255, 255, 0);
-//IPAddress primaryDNS(8, 8, 8, 8);   //optional
-//IPAddress secondaryDNS(8, 8, 4, 4); //optional
+IPAddress local_IP(172, 16, 0, 42);
+// Set your Gateway IP address
+IPAddress gateway(172, 16, 0, 254);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress primaryDNS(8, 8, 8, 8);   //optional
+IPAddress secondaryDNS(8, 8, 4, 4); //optional
 
 void setup_wifi() {
   delay(10);
   // We start by connecting to a WiFi network
   Serial.println();
-//  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
-//    Serial.println("STA Failed to configure");
-//  }
+  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+    Serial.println("STA Failed to configure");
+  }
   Serial.print("Connecting to ");
   Serial.println(ssid);
   WiFi.begin(ssid, pswd);
@@ -214,7 +215,7 @@ void loop() {
     count++;
   }
   int volt = voltavg / count;
-  double voltage = map(volt, 0, 1023, 0, voltref) + offset; // map 0-1023 to 0-2500 and add correction offset
+  double voltage = map(volt, 0, 1023, minvolt, maxvolt) + offset; // map 0-1023 to 0-2500 and add correction offset
   voltage /= 100; // divide by 100 to get the decimal values
   voltavg = 0;
   count = 0;
@@ -225,7 +226,7 @@ void loop() {
   if (updateonce == false) {
     Serial.println("I'm Awake  !!");
     delay(10);
-    client.publish(batteryupdate , payload.c_str());
+    client.publish(batterytopic , payload.c_str());
     Serial.println("Sent Update to Node Red : {Voltage:" + String(voltage) + "V}");
     updateonce = true;
     lastMsg = millis();
@@ -242,7 +243,7 @@ void loop() {
   }
   else if (operationmode == true || schedulemode == true) {
     if (now - lastMsg >= 5000) {
-      client.publish(batteryupdate , payload.c_str());
+      client.publish(batterytopic , payload.c_str());
       Serial.println("Sent Update to Node Red : {Voltage:" + String(voltage) + "V}");
       lastMsg = millis();
       //Serial.println(operationmode);
