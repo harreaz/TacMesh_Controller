@@ -1,30 +1,18 @@
-/*
-  Simple wemos D1 mini  MQTT example
-  This sketch demonstrates the capabilities of the pubsub library in combination
-  with the ESP8266 board/library.
-  It connects to the provided access point using dhcp, using ssid and pswd
-  It connects to an MQTT server ( using mqtt_server ) then:
-  - publishes "connected"+uniqueID to the [root topic] ( using topic )
-  - subscribes to the topic "[root topic]/composeClientID()/in"  with a callback to handle
-  - If the first character of the topic "[root topic]/composeClientID()/in" is an 1,
-    switch ON the ESP Led, else switch it off
-  - after a delay of "[root topic]/composeClientID()/in" minimum, it will publish
-    a composed payload to
-  It will reconnect to the server if the connection is lost using a blocking
-  reconnect function.
-
-*/
-
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include <ESP8266mDNS.h>
+#include <WiFiUdp.h>
+#include <ArduinoOTA.h>
+#define HOSTNAME "Node1"
 
 // Update these with values suitable for your network.
 
-const char* ssid = "tac02";
+const char* ssid = "tac01";
 const char* pswd = "tacmesh*!";
 const char* mqtt_server = "172.16.0.154";
+int mqtt_port = 1883;
 const char* topic = "wemos";    // rhis is the [root topic]
-const char* batterytopic = "tacmesh/battery2";
+const char* batterytopic = "tacmesh/battery1";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -38,19 +26,20 @@ bool operationmode = false;
 bool schedulemode = false;
 bool relaystate = false;
 bool updateonce = false;
-int relaypin = 14;
-int offset = -10  ; // set the correction offset value
+//int relaypin = 14;
+int relaypin = 2;
+int offset = -26  ; // set the correction offset value
 int count;
-bool relayon = HIGH;
-bool relayoff = LOW;
+bool relayon = LOW;
+bool relayoff = HIGH;
 int minvolt = 0; //in milivolt
 int maxvolt = 2000; //in milivolt
+int updateInterval = 2500;
 
 int status = WL_IDLE_STATUS;     // the starting Wifi radio's status
 
-IPAddress local_IP(172, 16, 0, 42);
-// Set your Gateway IP address
-IPAddress gateway(172, 16, 0, 254);
+IPAddress local_IP(172, 16, 0, 41);
+IPAddress gateway(172, 16, 0, 254); // Set your Gateway IP address
 IPAddress subnet(255, 255, 255, 0);
 IPAddress primaryDNS(8, 8, 8, 8);   //optional
 IPAddress secondaryDNS(8, 8, 4, 4); //optional
@@ -71,6 +60,29 @@ void setup_wifi() {
   }
   Serial.println("");
   Serial.println("WiFi connected");
+  ArduinoOTA.setHostname(HOSTNAME);
+
+  // No authentication by default
+  // ArduinoOTA.setPassword((const char *)"123");
+
+  ArduinoOTA.onStart([]() {
+    Serial.println("Start");
+  });
+  ArduinoOTA.onEnd([]() {
+    Serial.println("\nEnd");
+  });
+  ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
+    Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+  });
+  ArduinoOTA.onError([](ota_error_t error) {
+    Serial.printf("Error[%u]: ", error);
+    if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+    else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+    else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+    else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+    else if (error == OTA_END_ERROR) Serial.println("End Failed");
+  });
+  ArduinoOTA.begin();
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
 }
@@ -91,11 +103,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
     //onperiodmills = onperiod * 60 * 1000;
     // Switch on the LED if an 1 was received as first character
     if (message == "1") {
-      Serial.println("Mode: Always ON");
+      Serial.println("Mode: Operation");
       operationmode = true;
     }
     else if (message == "0") {
-      Serial.println("Mode: Periodic every " + String(offperiod) + "minute");
+      Serial.println("Mode: Standby, Periodic every " + String(offperiod) + "minute");
       operationmode = false;
     }
   }
@@ -108,17 +120,17 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
     }
     else if (message == "false") {
+      Serial.println("Mode: Scheduled OFF");
       schedulemode = false;
     }
   }
   if (String(topic) == "tacmesh/offperiod") {
     offperiod = message;
     offperiodmicros = stringToLong(offperiod) * 1000000;
-    Serial.println(offperiodmicros);
+    Serial.println("OFF Period: " + String(offperiod) + " seconds");
   }
   message = "";
 }
-
 
 String macToStr(const uint8_t* mac)
 {
@@ -159,16 +171,7 @@ void reconnect() {
     // Attempt to connect
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
-      // Once connected, publish an announcement...
       client.publish(topic, ("connected " + composeClientID()).c_str() , true );
-      // ... and resubscribe
-      // topic + clientID + in
-      //      String subscription;
-      //      subscription += topic;
-      //      subscription += "/";
-      //      subscription += composeClientID() ;
-      //      subscription += "/in";
-      //      client.subscribe(subscription.c_str() );
       String subscription1 = "tacmesh/mode";
       String subscription2 = "tacmesh/offperiod";
       String subscription3 = "tacmesh/schedule";
@@ -190,24 +193,19 @@ void reconnect() {
   }
 }
 
-void setup() {
-  Serial.begin(115200);
-
-  pinMode(relaypin, OUTPUT);     // Initialize the Relay Pin as an output
-  delay(10);
-  digitalWrite(relaypin, relayon);
-  setup_wifi();
-  client.setServer(mqtt_server, 1883);
-  client.setCallback(callback);
+void turnOnRelay() {
+  bool relaystate = relayon;
+  digitalWrite(relaypin, relaystate);
+  Serial.println("Relay Turned ON");
 }
 
-void loop() {
-  // confirm still connected to mqtt server
-  if (!client.connected()) {
-    reconnect();
-  }
-  client.loop();
+void turnOffRelay() {
+  bool relaystate = relayoff;
+  digitalWrite(relaypin, relaystate);
+  Serial.println("Relay Turned OFF");
+}
 
+float measureVolt() {
   for (int i = 0; i < 100; i++)
   {
     int volt = analogRead(A0);// read the input
@@ -219,34 +217,69 @@ void loop() {
   voltage /= 100; // divide by 100 to get the decimal values
   voltavg = 0;
   count = 0;
+
+  return voltage;
+}
+
+void emitMQTT(const char* topics, String payload) {
+  String voltage = String(measureVolt());
+  client.publish(topics , payload.c_str());
+  Serial.println("Sent Update to Node Red : {Voltage:" + String(voltage) + "V}");
+}
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(relaypin, OUTPUT);     // Initialize the Relay Pin as an output
+  delay(10);
+  turnOnRelay();
+  setup_wifi();
+  delay(10);
+  client.setServer(mqtt_server, mqtt_port);
+  client.setCallback(callback);
+}
+
+void loop() {
+  // confirm still connected to mqtt server
+  ArduinoOTA.handle();
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+
   String payload = "{\"Voltage\":";
-  payload += String(voltage);
+  payload += String(measureVolt());
   payload += "}";
 
-  if (updateonce == false) {
+  if (!updateonce) {
     Serial.println("I'm Awake  !!");
     delay(10);
-    client.publish(batterytopic , payload.c_str());
-    Serial.println("Sent Update to Node Red : {Voltage:" + String(voltage) + "V}");
+    emitMQTT(batterytopic, payload);
     updateonce = true;
+    emitMQTT("tacmesh/query", "Node1");
+    Serial.println("Asking query for updates");
     lastMsg = millis();
   }
-  //Serial.println(operationmode);
   unsigned long now = millis();
-  if (operationmode == false && schedulemode == false) {
-    if (now - lastMsg >= 5000) {
-      Serial.println("I'm awake, but I'm going into deep sleep mode for " + String(offperiodmicros / 1000000) + "seconds");
-      Serial.println(offperiodmicros);
+
+  if (!operationmode && !schedulemode) {
+    if (now - lastMsg >= updateInterval) {
+      Serial.println("Mode = Standby, I'm going into deep sleep mode for " + String(offperiodmicros / 1000000) + "seconds");
+      Serial.println(operationmode);
+      Serial.println(schedulemode);
       ESP.deepSleep(offperiodmicros);
       //Serial.println(operationmode);
     }
   }
-  else if (operationmode == true || schedulemode == true) {
-    if (now - lastMsg >= 5000) {
-      client.publish(batterytopic , payload.c_str());
-      Serial.println("Sent Update to Node Red : {Voltage:" + String(voltage) + "V}");
+  else if (operationmode || schedulemode) {
+    if (now - lastMsg >= updateInterval) {
+      if (operationmode) {
+        Serial.println("Mode = Operation, updating Battery Voltage every " + String(updateInterval / 1000) + "seconds");
+      }
+      else if (schedulemode) {
+        Serial.println("Mode = Scheduled, updating Battery Voltage every " + String(updateInterval / 1000) + "seconds");
+      }
+      emitMQTT(batterytopic, payload);
       lastMsg = millis();
-      //Serial.println(operationmode);
     }
   }
   delay(100);
