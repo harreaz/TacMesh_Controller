@@ -2,7 +2,7 @@
     {
         "id": "d5397fad8c24e1c4",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "Tacmesh_Controller",
         "disabled": false,
         "info": "",
         "env": []
@@ -27,7 +27,7 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 120,
+        "x": 200,
         "y": 580,
         "wires": [
             [
@@ -46,7 +46,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 120,
+        "x": 200,
         "y": 620,
         "wires": [
             [
@@ -85,7 +85,7 @@
         "order": 2,
         "width": 0,
         "height": 0,
-        "format": "<div>\n    <link href=\"https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap\" rel=\"stylesheet\">\n    <style>\n        body {\n            --background: #212529;\n            /*--background: #53a399;*/\n            --on-background: white;\n            --surface: #2d3136;\n            /*--surface: #a3535a;*/\n            --on-surface: white;\n            --primary: var(--nr-dashboard-widgetColor);\n            --on-primary: white;\n            --secondary: var(--nr-dashboard-groupTextColor);\n            --accent: red;\n            --radius-s: 8px;\n            --font-weight-m: 300;\n            --font-weight-m: 500;\n            --font-weight-l: 700;\n            --space-s: 8px;\n            --space-m: 16px;\n            --space-l: 32px;\n        }\n        #TacMesh_Node_cards > md-card > button{\n            font-size:26px;\n        }\n        \n        body.nr-dashboard-theme {\n            background-color: var(--background);\n            font-family: 'Montserrat', sans-serif;\n        }\n        .nr-dashboard-theme ui-card-panel {\n            background-color: var(--background);\n            border: 0;\n        }\n        .nr-dashboard-theme .nr-dashboard-button .md-button {\n            background-color: var(--primary);\n            border-radius: var(--radius-s);\n            padding: 8px !important;\n            line-height: inherit;\n            font-weight: var(--font-weight-l);\n            color: var(--on-primary);\n        }\n        .nr-dashboard-theme [ui-card-size=\"2x2\"].nr-dashboard-button .md-button {\n            display: flex;\n            flex-direction: column;\n            justify-content: center;\n            align-items: center;\n            white-space: pre-line;\n        }\n        \n        .nr-dashboard-theme .nr-dashboard-button .md-button ui-icon {\n                margin-bottom: 8px;\n        }\n        .nr-dashboard-theme .nr-dashboard-button .md-button:hover {\n            background-color: var(--secondary);\n        }\n        body.nr-dashboard-theme md-content md-card {\n            background-color: var(--surface);\n        }\n        md-card.md-default-theme, md-card {\n            border-radius: var(--radius-s);\n        }\n        .nr-dashboard-theme .nr-dashboard-gauge-titlel {\n            font-weight: var(--font-weight-l) !important;      \n        }\n        .nr-dashboard-theme ui-card-panel p.nr-dashboard-cardtitle {\n            font-weight: var(--font-weight-l);  \n            text-transform: capitalize;\n            color: var(--on-background);\n        }\n        .nr-dashboard-cardpanel > p {\n            margin-left: 0;\n            padding-left: 16px;\n        }\n        body.nr-dashboard-theme md-toolbar {\n            background-color: var(--surface);\n        }\n        .md-default-theme .md-datepicker-calendar, .md-datepicker-calendar,\n        .md-default-theme .md-calendar, .md-calendar{\n            background-color: var(--surface);\n            color: var(--on-surface);\n        }\n        .md-default-theme .md-datepicker-calendar-pane, .md-datepicker-calendar-pane{\n            border: 0;\n        }\n        .md-default-theme .md-calendar-month-label md-icon, .md-calendar-month-label md-icon, .md-default-theme .md-datepicker-input, .md-datepicker-input {\n            color: var(--on-surface);\n        }\n        body.nr-dashboard-theme md-content md-card {\n            color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-numeric .value {\n            background-color: var(--surface);\n            color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-dropdown md-select .md-select-value, .nr-dashboard-theme .nr-dashboard-dropdown md-select .md-select-value.md-select-placeholder {\n            color: var(--on-surface);\n            border-color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-dropdown .md-select-icon {\n            color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-date-picker md-input-container .md-input {\n            color: var(--on-surface);\n            border-color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-date-picker .md-datepicker-triangle-button .md-datepicker-expand-triangle {\n            border-top-color: var(--on-surface);\n        }\n        body.nr-dashboard-theme md-sidenav {\n            background-color: var(--surface);\n        }\n        md-list-item._md-button-wrap > div.md-button:first-child, md-list-item .md-list-item-inner {\n            background-color: var(--surface);\n        }\n    </style>\n</div>",
+        "format": "<div>\n    <link href=\"https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap\" rel=\"stylesheet\">\n    <style>\n        body {\n            --background: #212529;\n            /*--background: #53a399;*/\n            --on-background: white;\n            /*--surface: #2d3136;*/\n            /*--surface: #a3535a;*/\n            --surface: #0B504F;\n            --on-surface: white;\n            --primary: var(--nr-dashboard-widgetColor);\n            --on-primary: white;\n            --secondary: var(--nr-dashboard-groupTextColor);\n            --accent: red;\n            --radius-s: 8px;\n            --font-weight-m: 300;\n            --font-weight-m: 500;\n            --font-weight-l: 700;\n            --space-s: 8px;\n            --space-m: 16px;\n            --space-l: 32px;\n        }\n        #TacMesh_Node_cards > md-card > button{\n            font-size:26px;\n        }\n        \n        body.nr-dashboard-theme {\n            background-color: var(--background);\n            font-family: 'Montserrat', sans-serif;\n        }\n        .nr-dashboard-theme ui-card-panel {\n            background-color: var(--background);\n            border: 0;\n        }\n        .nr-dashboard-theme .nr-dashboard-button .md-button {\n            background-color: var(--primary);\n            border-radius: var(--radius-s);\n            padding: 8px !important;\n            line-height: inherit;\n            font-weight: var(--font-weight-l);\n            color: var(--on-primary);\n        }\n        .nr-dashboard-theme [ui-card-size=\"2x2\"].nr-dashboard-button .md-button {\n            display: flex;\n            flex-direction: column;\n            justify-content: center;\n            align-items: center;\n            white-space: pre-line;\n        }\n        \n        .nr-dashboard-theme .nr-dashboard-button .md-button ui-icon {\n                margin-bottom: 8px;\n        }\n        .nr-dashboard-theme .nr-dashboard-button .md-button:hover {\n            background-color: var(--secondary);\n        }\n        body.nr-dashboard-theme md-content md-card {\n            background-color: var(--surface);\n        }\n        md-card.md-default-theme, md-card {\n            border-radius: var(--radius-s);\n        }\n        .nr-dashboard-theme .nr-dashboard-gauge-titlel {\n            font-weight: var(--font-weight-l) !important;      \n        }\n        .nr-dashboard-theme ui-card-panel p.nr-dashboard-cardtitle {\n            font-weight: var(--font-weight-l);  \n            text-transform: capitalize;\n            color: var(--on-background);\n        }\n        .nr-dashboard-cardpanel > p {\n            margin-left: 0;\n            padding-left: 16px;\n        }\n        body.nr-dashboard-theme md-toolbar {\n            background-color: var(--surface);\n        }\n        .md-default-theme .md-datepicker-calendar, .md-datepicker-calendar,\n        .md-default-theme .md-calendar, .md-calendar{\n            background-color: var(--surface);\n            color: var(--on-surface);\n        }\n        .md-default-theme .md-datepicker-calendar-pane, .md-datepicker-calendar-pane{\n            border: 0;\n        }\n        .md-default-theme .md-calendar-month-label md-icon, .md-calendar-month-label md-icon, .md-default-theme .md-datepicker-input, .md-datepicker-input {\n            color: var(--on-surface);\n        }\n        body.nr-dashboard-theme md-content md-card {\n            color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-numeric .value {\n            background-color: var(--surface);\n            color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-dropdown md-select .md-select-value, .nr-dashboard-theme .nr-dashboard-dropdown md-select .md-select-value.md-select-placeholder {\n            color: var(--on-surface);\n            border-color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-dropdown .md-select-icon {\n            color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-date-picker md-input-container .md-input {\n            color: var(--on-surface);\n            border-color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-date-picker .md-datepicker-triangle-button .md-datepicker-expand-triangle {\n            border-top-color: var(--on-surface);\n        }\n        body.nr-dashboard-theme md-sidenav {\n            background-color: var(--surface);\n        }\n        md-list-item._md-button-wrap > div.md-button:first-child, md-list-item .md-list-item-inner {\n            background-color: var(--surface);\n        }\n    </style>\n</div>",
         "storeOutMessages": true,
         "fwdInMessages": true,
         "resendOnRefresh": false,
@@ -132,7 +132,7 @@
         "expiry": "",
         "broker": "272108da28784153",
         "x": 670,
-        "y": 560,
+        "y": 540,
         "wires": []
     },
     {
@@ -195,7 +195,7 @@
         "topic": "topic",
         "topicType": "msg",
         "className": "",
-        "x": 120,
+        "x": 100,
         "y": 660,
         "wires": [
             [
@@ -214,30 +214,13 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 120,
-        "y": 700,
+        "x": 240,
+        "y": 660,
         "wires": [
             [
-                "76b01f3991b6756c",
                 "272d2cd7ecebc087"
             ]
         ]
-    },
-    {
-        "id": "76b01f3991b6756c",
-        "type": "debug",
-        "z": "d5397fad8c24e1c4",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 270,
-        "y": 720,
-        "wires": []
     },
     {
         "id": "6a28b993b1922eb2",
@@ -254,7 +237,7 @@
         "expiry": "",
         "broker": "272108da28784153",
         "x": 670,
-        "y": 620,
+        "y": 580,
         "wires": []
     },
     {
@@ -262,8 +245,8 @@
         "type": "function",
         "z": "d5397fad8c24e1c4",
         "name": "",
-        "func": "var offperiod = global.get(\"offperiod\") || 1\noffperiod = offperiod * 60;\nvar buttonstate = global.get(\"buttonState1\") || 0;\nvar timediff = global.get(\"timediff\") || 86399;\nvar schedulemode = global.get(\"schedulemode\") || false;\n\nif(offperiod >= timediff){\n    offperiod = timediff;\n}\n\na = {\n    \"payload\": buttonstate\n}\nb = {\n    \"payload\": offperiod\n}\nc = {\n    \"payload\": schedulemode \n}\nd = {\n    \"getStatus\": \"Any\" \n}\nreturn [a,b,c,d];",
-        "outputs": 4,
+        "func": "var offperiod = global.get(\"offperiod\") || 1\noffperiod = offperiod * 60;\nvar buttonstate = global.get(\"buttonState1\") || 0;\nvar timediff = global.get(\"timediff\") || 86399;\nvar schedulemode = global.get(\"schedulemode\") || false;\nvar timestamp = global.get(\"timestamp\") || 0\n\nif(offperiod >= timediff){\n    offperiod = timediff;\n}\n\na = {\n    \"payload\": buttonstate\n}\nb = {\n    \"payload\": offperiod\n}\nc = {\n    \"payload\": schedulemode \n}\nd = {\n    \"getStatus\": \"Any\" \n}\ne = {\n    \"payload\":timestamp\n}\nreturn [a,b,c,d,e];",
+        "outputs": 5,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -275,14 +258,16 @@
                 "029329bc4cce9e8c"
             ],
             [
-                "ec2ad4a3ffcac4cc",
-                "785698a571ab3056"
+                "ec2ad4a3ffcac4cc"
             ],
             [
                 "6a28b993b1922eb2"
             ],
             [
                 "dda5257d7a87a1d0"
+            ],
+            [
+                "a37b5ea016c4a98a"
             ]
         ]
     },
@@ -433,8 +418,8 @@
         "protocol": "Automatic",
         "mode": "timed",
         "name": "Wemos",
-        "host": "192.168.116.184",
-        "timer": "20",
+        "host": "172.16.0.1",
+        "timer": "10",
         "inputs": 0,
         "x": 110,
         "y": 400,
@@ -591,27 +576,6 @@
         ]
     },
     {
-        "id": "15bedcd92aa2ddbf",
-        "type": "mqtt in",
-        "z": "d5397fad8c24e1c4",
-        "name": "TacMesh_Battery",
-        "topic": "tacmesh/battery1",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "272108da28784153",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 140,
-        "y": 540,
-        "wires": [
-            [
-                "272d2cd7ecebc087"
-            ]
-        ]
-    },
-    {
         "id": "16637bd7f8f60af1",
         "type": "inject",
         "z": "d5397fad8c24e1c4",
@@ -628,8 +592,8 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 450,
-        "y": 980,
+        "x": 590,
+        "y": 720,
         "wires": [
             [
                 "dda5257d7a87a1d0"
@@ -647,8 +611,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 860,
-        "y": 980,
+        "x": 1000,
+        "y": 720,
         "wires": [
             [
                 "59c75f5bca2f3ea8",
@@ -665,8 +629,8 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 730,
-        "y": 940,
+        "x": 870,
+        "y": 680,
         "wires": [
             [
                 "c6af45059289535e",
@@ -686,8 +650,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1030,
-        "y": 940,
+        "x": 1170,
+        "y": 680,
         "wires": []
     },
     {
@@ -755,8 +719,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 870,
-        "y": 920,
+        "x": 1010,
+        "y": 660,
         "wires": []
     },
     {
@@ -764,14 +728,14 @@
         "type": "function",
         "z": "d5397fad8c24e1c4",
         "name": "Current Time",
-        "func": "var a = new Date(msg.payload);\nvar hours = a.getHours();\nvar mins = a.getMinutes();\nmsg.payload = (hours*60*60)+(mins*60)+a.getSeconds();\nglobal.set(\"timenow\",msg.payload)\nreturn msg;",
+        "func": "var a = msg.payload;\nvar b = new Date(msg.payload);\nvar hours = b.getHours();\nvar mins = b.getMinutes();\nmsg.payload = (hours*60*60)+(mins*60)+b.getSeconds();\nglobal.set(\"timenow\",msg.payload)\nglobal.set(\"timestamp\",a)\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 1100,
+        "x": 770,
+        "y": 840,
         "wires": [
             [
                 "ce189ee706290727"
@@ -790,8 +754,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 810,
-        "y": 1100,
+        "x": 950,
+        "y": 840,
         "wires": []
     },
     {
@@ -811,8 +775,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 450,
-        "y": 1100,
+        "x": 590,
+        "y": 840,
         "wires": [
             [
                 "36860a1307c43c9a"
@@ -830,8 +794,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1060,
-        "y": 980,
+        "x": 1200,
+        "y": 720,
         "wires": [
             [
                 "d4a170847dce6198"
@@ -851,8 +815,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1230,
-        "y": 980,
+        "x": 1370,
+        "y": 720,
         "wires": []
     },
     {
@@ -872,8 +836,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 450,
-        "y": 1060,
+        "x": 590,
+        "y": 800,
         "wires": [
             [
                 "a6eb839a2f72453f"
@@ -891,29 +855,13 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 1060,
+        "x": 770,
+        "y": 800,
         "wires": [
             [
                 "2e830413bc717b1d"
             ]
         ]
-    },
-    {
-        "id": "785698a571ab3056",
-        "type": "debug",
-        "z": "d5397fad8c24e1c4",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 830,
-        "y": 500,
-        "wires": []
     },
     {
         "id": "f2f32e1392eff06e",
@@ -926,8 +874,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1020,
-        "y": 1020,
+        "x": 1160,
+        "y": 760,
         "wires": [
             [
                 "4c07f2d13d1fbe96",
@@ -940,7 +888,7 @@
         "type": "debug",
         "z": "d5397fad8c24e1c4",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -948,8 +896,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1230,
-        "y": 1020,
+        "x": 1370,
+        "y": 760,
         "wires": []
     },
     {
@@ -965,8 +913,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 480,
-        "y": 700,
+        "x": 120,
+        "y": 840,
         "wires": [
             [
                 "731140715e296f91"
@@ -986,8 +934,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 490,
-        "y": 740,
+        "x": 130,
+        "y": 880,
         "wires": [
             [
                 "9c0a061d4ddef519"
@@ -1007,8 +955,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 490,
-        "y": 780,
+        "x": 130,
+        "y": 920,
         "wires": [
             [
                 "c2e5a846edf2e802"
@@ -1027,8 +975,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 710,
-        "y": 740,
+        "x": 350,
+        "y": 880,
         "wires": []
     },
     {
@@ -1043,8 +991,8 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 710,
-        "y": 700,
+        "x": 350,
+        "y": 840,
         "wires": []
     },
     {
@@ -1052,15 +1000,15 @@
         "type": "debug",
         "z": "d5397fad8c24e1c4",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 710,
-        "y": 780,
+        "x": 350,
+        "y": 920,
         "wires": []
     },
     {
@@ -1068,7 +1016,7 @@
         "type": "debug",
         "z": "d5397fad8c24e1c4",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1076,8 +1024,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 830,
-        "y": 1060,
+        "x": 970,
+        "y": 800,
         "wires": []
     },
     {
@@ -1085,7 +1033,7 @@
         "type": "function",
         "z": "d5397fad8c24e1c4",
         "name": "Voltage",
-        "func": "msg.topic = msg.payload.Voltage + \"V\";\nmsg.payload = msg.payload.Voltage;\nreturn msg;\n\n",
+        "func": "msg.topic = msg.payload.Voltage + \"V\";\nmsg.payload = msg.payload.Voltage;\nglobal.set(\"voltage2\",msg.payload);\nreturn msg;\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1227,8 +1175,8 @@
         "protocol": "Automatic",
         "mode": "timed",
         "name": "Wemos",
-        "host": "192.168.116.183",
-        "timer": "20",
+        "host": "172.16.0.42",
+        "timer": "10",
         "inputs": 0,
         "x": 530,
         "y": 400,
@@ -1441,8 +1389,8 @@
         "id": "2f163b635a689828",
         "type": "mqtt in",
         "z": "d5397fad8c24e1c4",
-        "name": "TacMesh_Battery",
-        "topic": "tacmesh/battery2",
+        "name": "TacMesh_Query",
+        "topic": "tacmesh/query",
         "qos": "2",
         "datatype": "auto",
         "broker": "272108da28784153",
@@ -1450,8 +1398,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 140,
-        "y": 500,
+        "x": 200,
+        "y": 520,
         "wires": [
             [
                 "272d2cd7ecebc087"
@@ -1475,8 +1423,8 @@
         "drop": false,
         "allowrate": false,
         "outputs": 1,
-        "x": 820,
-        "y": 1020,
+        "x": 960,
+        "y": 760,
         "wires": [
             [
                 "f2f32e1392eff06e"
@@ -1493,8 +1441,8 @@
         "tls": true,
         "name": "hariz@scs.my",
         "dname": "EMail",
-        "x": 1010,
-        "y": 1160,
+        "x": 1150,
+        "y": 900,
         "wires": []
     },
     {
@@ -1514,8 +1462,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 610,
-        "y": 1160,
+        "x": 750,
+        "y": 900,
         "wires": [
             [
                 "8d4366a53eb92fb7"
@@ -1526,16 +1474,15 @@
         "id": "8d4366a53eb92fb7",
         "type": "function",
         "z": "d5397fad8c24e1c4",
-        "d": true,
         "name": "",
-        "func": "var a = global.get(\"voltage\") || 8\nmsg.payload = a\nmsg.topic = \"Voltage TacMesh\"\nreturn msg;",
+        "func": "var a = global.get(\"voltage\") || 0\nvar b = global.get(\"voltage2\") || 0\nvar c = global.get(\"voltage3\") || 0\nvar d = global.get(\"voltage4\") || 0\nvar e = global.get(\"voltage5\") || 0\nvar f = global.get(\"voltage6\") || 0\n\nmsg.payload = \"Battery Voltage Node 1 = \" + a +\"V\"\nmsg.payload += \"\\r\\n\"\nmsg.payload += \"Battery Voltage Node 2 = \" + b + \"V\"\nmsg.payload += \"\\r\\n\"\nmsg.payload += \"Battery Voltage Node 3 = \" + c + \"V\"\nmsg.payload += \"\\r\\n\"\nmsg.payload += \"Battery Voltage Node 4 = \" + d + \"V\"\nmsg.payload += \"\\r\\n\"\nmsg.payload += \"Battery Voltage Node 5 = \" + e + \"V\"\nmsg.payload += \"\\r\\n\"\nmsg.payload += \"Battery Voltage Node 6 = \" + f + \"V\"\n\nmsg.topic = \"Voltage TacMesh\"\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 820,
-        "y": 1160,
+        "x": 960,
+        "y": 900,
         "wires": [
             [
                 "93b6d9307f7f5e80"
@@ -1559,8 +1506,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 610,
-        "y": 1200,
+        "x": 750,
+        "y": 940,
         "wires": [
             [
                 "8d4366a53eb92fb7"
@@ -1578,14 +1525,14 @@
             }
         ],
         "repeat": "",
-        "crontab": "00 20 * * *",
+        "crontab": "00 18 * * *",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 610,
-        "y": 1240,
+        "x": 750,
+        "y": 980,
         "wires": [
             [
                 "8d4366a53eb92fb7"
@@ -1603,14 +1550,14 @@
             }
         ],
         "repeat": "",
-        "crontab": "00 08 * * *",
+        "crontab": "00 21 * * *",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 610,
-        "y": 1280,
+        "x": 750,
+        "y": 1020,
         "wires": [
             [
                 "8d4366a53eb92fb7"
@@ -1634,8 +1581,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 610,
-        "y": 1320,
+        "x": 750,
+        "y": 1060,
         "wires": [
             [
                 "8d4366a53eb92fb7"
@@ -1663,11 +1610,11 @@
         "lon": "",
         "customContextStore": "",
         "outputs": 2,
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
-        "x": 590,
-        "y": 960,
+        "x": 730,
+        "y": 700,
         "wires": [
             [
                 "043669006a7d7e07"
@@ -1679,9 +1626,1826 @@
         ]
     },
     {
+        "id": "c2c1ebcd3556b3a5",
+        "type": "inject",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 03 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 750,
+        "y": 1100,
+        "wires": [
+            [
+                "8d4366a53eb92fb7"
+            ]
+        ]
+    },
+    {
+        "id": "b8b7cca586ff4972",
+        "type": "inject",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 06 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 750,
+        "y": 1140,
+        "wires": [
+            [
+                "8d4366a53eb92fb7"
+            ]
+        ]
+    },
+    {
+        "id": "c90b140b57a0430a",
+        "type": "inject",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 09 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 750,
+        "y": 1180,
+        "wires": [
+            [
+                "8d4366a53eb92fb7"
+            ]
+        ]
+    },
+    {
+        "id": "45d77bf4bb4e51f5",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "Voltage",
+        "func": "msg.topic = msg.payload.Voltage + \"V\";\nmsg.payload = msg.payload.Voltage;\nglobal.set(\"voltage3\",msg.payload);\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 160,
+        "wires": [
+            [
+                "50ad349f3aeac4dd",
+                "346b9e25b0760ebb",
+                "1f90e4e1a1c5fcc2"
+            ]
+        ]
+    },
+    {
+        "id": "50ad349f3aeac4dd",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1150,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "b6c27302e6afb3ab",
+        "type": "mqtt in",
+        "z": "d5397fad8c24e1c4",
+        "name": "TacMesh_Battery",
+        "topic": "tacmesh/battery3",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "272108da28784153",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 960,
+        "y": 200,
+        "wires": [
+            [
+                "0f46365b19d2d971",
+                "ae2b5529568c63d6",
+                "d3afd53e86e675d2"
+            ]
+        ]
+    },
+    {
+        "id": "0f46365b19d2d971",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1150,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "ae2b5529568c63d6",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "func": "var count_secs = flow.get(\"count_secs3\") || 0;\nvar count_mins = flow.get(\"count_mins3\") || 0;\nvar count_hours = flow.get(\"count_hours3\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n        }\n        count_secs = 0;\n    }\n}\nelse{\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n}\nflow.set(\"count_secs3\",count_secs);\nflow.set(\"count_mins3\",count_mins);\nflow.set(\"count_hours3\",count_hours);\n\nmsg.payload = count_hours + \" h \" + count_mins + \" m \"\nmsg.payload += count_secs + \" s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1140,
+        "y": 280,
+        "wires": [
+            [
+                "c4967644d1f4cb5b",
+                "87841c5ac0a070ce"
+            ]
+        ]
+    },
+    {
+        "id": "f30163d40fc71bfe",
+        "type": "inject",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 960,
+        "y": 240,
+        "wires": [
+            [
+                "ae2b5529568c63d6"
+            ]
+        ]
+    },
+    {
+        "id": "c4967644d1f4cb5b",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "55e2ac57305128f8",
+        "type": "ping",
+        "z": "d5397fad8c24e1c4",
+        "protocol": "Automatic",
+        "mode": "timed",
+        "name": "Wemos",
+        "host": "172.16.0.43",
+        "timer": "10",
+        "inputs": 0,
+        "x": 930,
+        "y": 400,
+        "wires": [
+            [
+                "49370e62e714ae1a"
+            ]
+        ]
+    },
+    {
+        "id": "329271e5c13fcba1",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "87841c5ac0a070ce",
+        "type": "ui_text",
+        "z": "d5397fad8c24e1c4",
+        "group": "ba5ff1719fca9970",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 1170,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "741b6fcfbdbc3bbc",
+        "type": "ui_led",
+        "z": "d5397fad8c24e1c4",
+        "order": 1,
+        "group": "ba5ff1719fca9970",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 1190,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "718757cfbb8a2eaa",
+        "type": "ui_artlessgauge",
+        "z": "d5397fad8c24e1c4",
+        "group": "ba5ff1719fca9970",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 1140,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "49370e62e714ae1a",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "func": "if (msg.payload > 0)\n{\n    msg.payload = true\n}\n\nelse if(msg.payload == false)\n{\n    msg.payload = false\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 440,
+        "wires": [
+            [
+                "329271e5c13fcba1",
+                "741b6fcfbdbc3bbc"
+            ]
+        ]
+    },
+    {
+        "id": "d3afd53e86e675d2",
+        "type": "json",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1130,
+        "y": 200,
+        "wires": [
+            [
+                "45d77bf4bb4e51f5"
+            ]
+        ]
+    },
+    {
+        "id": "346b9e25b0760ebb",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "topic",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "1f90e4e1a1c5fcc2",
+        "type": "range",
+        "z": "d5397fad8c24e1c4",
+        "minin": "9.00",
+        "maxin": "12.6",
+        "minout": "0",
+        "maxout": "100",
+        "action": "scale",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 960,
+        "y": 120,
+        "wires": [
+            [
+                "718757cfbb8a2eaa"
+            ]
+        ]
+    },
+    {
+        "id": "b7e4c5d280d972b5",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "Voltage",
+        "func": "msg.topic = msg.payload.Voltage + \"V\";\nmsg.payload = msg.payload.Voltage;\nglobal.set(\"voltage4\",msg.payload);\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1360,
+        "y": 160,
+        "wires": [
+            [
+                "092bf879a1b70485",
+                "409b50331615c2c3",
+                "160ab1e481c8dc61"
+            ]
+        ]
+    },
+    {
+        "id": "092bf879a1b70485",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1550,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "0bd3ce0d49f48e6c",
+        "type": "mqtt in",
+        "z": "d5397fad8c24e1c4",
+        "name": "TacMesh_Battery",
+        "topic": "tacmesh/battery4",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "272108da28784153",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 1360,
+        "y": 200,
+        "wires": [
+            [
+                "dbfc888191458e90",
+                "714cba222f7f1181",
+                "e3851a820a274a30"
+            ]
+        ]
+    },
+    {
+        "id": "dbfc888191458e90",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1550,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "714cba222f7f1181",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "func": "var count_secs = flow.get(\"count_secs4\") || 0;\nvar count_mins = flow.get(\"count_mins4\") || 0;\nvar count_hours = flow.get(\"count_hours4\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n        }\n        count_secs = 0;\n    }\n}\nelse{\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n}\nflow.set(\"count_secs4\",count_secs);\nflow.set(\"count_mins4\",count_mins);\nflow.set(\"count_hours4\",count_hours);\n\nmsg.payload = count_hours + \" h \" + count_mins + \" m \"\nmsg.payload += count_secs + \" s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1540,
+        "y": 280,
+        "wires": [
+            [
+                "fa0b3da741548dc5",
+                "4a77120f8a12e58b"
+            ]
+        ]
+    },
+    {
+        "id": "f9e4e1ccc17e946c",
+        "type": "inject",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 1360,
+        "y": 240,
+        "wires": [
+            [
+                "714cba222f7f1181"
+            ]
+        ]
+    },
+    {
+        "id": "fa0b3da741548dc5",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1570,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "80a8352aba42e714",
+        "type": "ping",
+        "z": "d5397fad8c24e1c4",
+        "protocol": "Automatic",
+        "mode": "timed",
+        "name": "Wemos",
+        "host": "172.16.0.44",
+        "timer": "10",
+        "inputs": 0,
+        "x": 1330,
+        "y": 400,
+        "wires": [
+            [
+                "711f2ede82b6061b"
+            ]
+        ]
+    },
+    {
+        "id": "98a7ed14d80badd6",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1570,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "4a77120f8a12e58b",
+        "type": "ui_text",
+        "z": "d5397fad8c24e1c4",
+        "group": "284843a09e7912fe",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 1570,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "57f3dd555cabc5f5",
+        "type": "ui_led",
+        "z": "d5397fad8c24e1c4",
+        "order": 1,
+        "group": "284843a09e7912fe",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 1590,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "47e5872377d32311",
+        "type": "ui_artlessgauge",
+        "z": "d5397fad8c24e1c4",
+        "group": "284843a09e7912fe",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 1540,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "711f2ede82b6061b",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "func": "if (msg.payload > 0)\n{\n    msg.payload = true\n}\n\nelse if(msg.payload == false)\n{\n    msg.payload = false\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1440,
+        "y": 440,
+        "wires": [
+            [
+                "98a7ed14d80badd6",
+                "57f3dd555cabc5f5"
+            ]
+        ]
+    },
+    {
+        "id": "e3851a820a274a30",
+        "type": "json",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1530,
+        "y": 200,
+        "wires": [
+            [
+                "b7e4c5d280d972b5"
+            ]
+        ]
+    },
+    {
+        "id": "409b50331615c2c3",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "topic",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1540,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "160ab1e481c8dc61",
+        "type": "range",
+        "z": "d5397fad8c24e1c4",
+        "minin": "9.00",
+        "maxin": "12.6",
+        "minout": "0",
+        "maxout": "100",
+        "action": "scale",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 1360,
+        "y": 120,
+        "wires": [
+            [
+                "47e5872377d32311"
+            ]
+        ]
+    },
+    {
+        "id": "f0fa85f95d6b03ac",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "Voltage",
+        "func": "msg.topic = msg.payload.Voltage + \"V\";\nmsg.payload = msg.payload.Voltage;\nglobal.set(\"voltage5\",msg.payload);\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1760,
+        "y": 160,
+        "wires": [
+            [
+                "af43c20ea42585a9",
+                "ca5a71666f2288a2",
+                "5b6385a17f4c5e86"
+            ]
+        ]
+    },
+    {
+        "id": "af43c20ea42585a9",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1950,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "3f8154b8a250cce8",
+        "type": "mqtt in",
+        "z": "d5397fad8c24e1c4",
+        "name": "TacMesh_Battery",
+        "topic": "tacmesh/battery5",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "272108da28784153",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 1760,
+        "y": 200,
+        "wires": [
+            [
+                "9da07df82528dcad",
+                "53e15a9dd095945f",
+                "97d953d4f5301183"
+            ]
+        ]
+    },
+    {
+        "id": "9da07df82528dcad",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1950,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "53e15a9dd095945f",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "func": "var count_secs = flow.get(\"count_secs5\") || 0;\nvar count_mins = flow.get(\"count_mins5\") || 0;\nvar count_hours = flow.get(\"count_hours5\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n        }\n        count_secs = 0;\n    }\n}\nelse{\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n}\nflow.set(\"count_secs5\",count_secs);\nflow.set(\"count_mins5\",count_mins);\nflow.set(\"count_hours5\",count_hours);\n\nmsg.payload = count_hours + \" h \" + count_mins + \" m \"\nmsg.payload += count_secs + \" s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1940,
+        "y": 280,
+        "wires": [
+            [
+                "8e4c8e504a270274",
+                "bd485008905301e7"
+            ]
+        ]
+    },
+    {
+        "id": "9710eb93751e9fac",
+        "type": "inject",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 1760,
+        "y": 240,
+        "wires": [
+            [
+                "53e15a9dd095945f"
+            ]
+        ]
+    },
+    {
+        "id": "8e4c8e504a270274",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1970,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "99a74155becd8220",
+        "type": "ping",
+        "z": "d5397fad8c24e1c4",
+        "protocol": "Automatic",
+        "mode": "timed",
+        "name": "Wemos",
+        "host": "172.16.0.45",
+        "timer": "10",
+        "inputs": 0,
+        "x": 1730,
+        "y": 400,
+        "wires": [
+            [
+                "c4f12db3c3ea97bf"
+            ]
+        ]
+    },
+    {
+        "id": "b4d0e1fabdfcb9b1",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1970,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "bd485008905301e7",
+        "type": "ui_text",
+        "z": "d5397fad8c24e1c4",
+        "group": "391de97e67b559e9",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 1970,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "dda2c8a64dfcd097",
+        "type": "ui_led",
+        "z": "d5397fad8c24e1c4",
+        "order": 1,
+        "group": "391de97e67b559e9",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 1990,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "030852790094a0c7",
+        "type": "ui_artlessgauge",
+        "z": "d5397fad8c24e1c4",
+        "group": "391de97e67b559e9",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 1940,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "c4f12db3c3ea97bf",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "func": "if (msg.payload > 0)\n{\n    msg.payload = true\n}\n\nelse if(msg.payload == false)\n{\n    msg.payload = false\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1840,
+        "y": 440,
+        "wires": [
+            [
+                "b4d0e1fabdfcb9b1",
+                "dda2c8a64dfcd097"
+            ]
+        ]
+    },
+    {
+        "id": "97d953d4f5301183",
+        "type": "json",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1930,
+        "y": 200,
+        "wires": [
+            [
+                "f0fa85f95d6b03ac"
+            ]
+        ]
+    },
+    {
+        "id": "ca5a71666f2288a2",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "topic",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1940,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "5b6385a17f4c5e86",
+        "type": "range",
+        "z": "d5397fad8c24e1c4",
+        "minin": "9.00",
+        "maxin": "12.6",
+        "minout": "0",
+        "maxout": "100",
+        "action": "scale",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 1760,
+        "y": 120,
+        "wires": [
+            [
+                "030852790094a0c7"
+            ]
+        ]
+    },
+    {
+        "id": "eeb43c777cb1958f",
+        "type": "change",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1400,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a37b5ea016c4a98a",
+        "type": "mqtt out",
+        "z": "d5397fad8c24e1c4",
+        "name": "TacMesh_timestamp",
+        "topic": "tacmesh/timestamp",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "272108da28784153",
+        "x": 680,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "a10dbb76763551bb",
+        "type": "mqtt in",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "topic": "tacmesh/timestamp",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "272108da28784153",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 960,
+        "wires": [
+            [
+                "a0c6e2a0fe31f98d"
+            ]
+        ]
+    },
+    {
+        "id": "a0c6e2a0fe31f98d",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 350,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "539d798c8f983f4e",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "Voltage",
+        "func": "msg.topic = msg.payload.Voltage + \"V\";\nmsg.payload = msg.payload.Voltage;\nglobal.set(\"voltage6\",msg.payload);\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2180,
+        "y": 160,
+        "wires": [
+            [
+                "b96d297d882e1be6",
+                "f5ab45133a2db9da",
+                "7f910d6e7baa3302"
+            ]
+        ]
+    },
+    {
+        "id": "b96d297d882e1be6",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2370,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "9bc7ecf48adebe25",
+        "type": "mqtt in",
+        "z": "d5397fad8c24e1c4",
+        "name": "TacMesh_Battery",
+        "topic": "tacmesh/battery6",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "272108da28784153",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 2180,
+        "y": 200,
+        "wires": [
+            [
+                "dd2fa45f8f32b942",
+                "44e5db3aa859bd0a",
+                "05c476048306830c"
+            ]
+        ]
+    },
+    {
+        "id": "dd2fa45f8f32b942",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2370,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "44e5db3aa859bd0a",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "func": "var count_secs = flow.get(\"count_secs6\") || 0;\nvar count_mins = flow.get(\"count_mins6\") || 0;\nvar count_hours = flow.get(\"count_hours6\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n        }\n        count_secs = 0;\n    }\n}\nelse{\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n}\nflow.set(\"count_secs6\",count_secs);\nflow.set(\"count_mins6\",count_mins);\nflow.set(\"count_hours6\",count_hours);\n\nmsg.payload = count_hours + \" h \" + count_mins + \" m \"\nmsg.payload += count_secs + \" s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2360,
+        "y": 280,
+        "wires": [
+            [
+                "e3c30791f373283b",
+                "98ee37eeb45ef6ae"
+            ]
+        ]
+    },
+    {
+        "id": "789f044cd0a9c745",
+        "type": "inject",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 2180,
+        "y": 240,
+        "wires": [
+            [
+                "44e5db3aa859bd0a"
+            ]
+        ]
+    },
+    {
+        "id": "e3c30791f373283b",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2390,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "bb08d27e7b362dee",
+        "type": "ping",
+        "z": "d5397fad8c24e1c4",
+        "protocol": "Automatic",
+        "mode": "timed",
+        "name": "Wemos",
+        "host": "172.16.0.46",
+        "timer": "10",
+        "inputs": 0,
+        "x": 2150,
+        "y": 400,
+        "wires": [
+            [
+                "2795c99c04d2323a"
+            ]
+        ]
+    },
+    {
+        "id": "ae8d8e1d729b1dca",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2390,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "98ee37eeb45ef6ae",
+        "type": "ui_text",
+        "z": "d5397fad8c24e1c4",
+        "group": "c525591f44bcf547",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 2390,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "336629254a38a77f",
+        "type": "ui_led",
+        "z": "d5397fad8c24e1c4",
+        "order": 1,
+        "group": "c525591f44bcf547",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 2410,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "16c462b4e3cbcd46",
+        "type": "ui_artlessgauge",
+        "z": "d5397fad8c24e1c4",
+        "group": "c525591f44bcf547",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 2360,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "2795c99c04d2323a",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "func": "if (msg.payload > 0)\n{\n    msg.payload = true\n}\n\nelse if(msg.payload == false)\n{\n    msg.payload = false\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2260,
+        "y": 440,
+        "wires": [
+            [
+                "ae8d8e1d729b1dca",
+                "336629254a38a77f"
+            ]
+        ]
+    },
+    {
+        "id": "05c476048306830c",
+        "type": "json",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 2350,
+        "y": 200,
+        "wires": [
+            [
+                "539d798c8f983f4e"
+            ]
+        ]
+    },
+    {
+        "id": "f5ab45133a2db9da",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "topic",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2360,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "7f910d6e7baa3302",
+        "type": "range",
+        "z": "d5397fad8c24e1c4",
+        "minin": "9.00",
+        "maxin": "12.6",
+        "minout": "0",
+        "maxout": "100",
+        "action": "scale",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 2180,
+        "y": 120,
+        "wires": [
+            [
+                "16c462b4e3cbcd46"
+            ]
+        ]
+    },
+    {
+        "id": "5d78c921d5c632d5",
+        "type": "mqtt out",
+        "z": "d5397fad8c24e1c4",
+        "name": "TacMesh/Sleep",
+        "topic": "tacmesh/sleep",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "272108da28784153",
+        "x": 560,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "4ed506d4608b38b6",
+        "type": "mqtt in",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "topic": "tacmesh/sleep",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "272108da28784153",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 110,
+        "y": 1000,
+        "wires": [
+            [
+                "5106e9e761181524"
+            ]
+        ]
+    },
+    {
+        "id": "5106e9e761181524",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 350,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "08ddc2edf8e62022",
+        "type": "inject",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "props": [
+            {
+                "p": "reset",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 110,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e1ff07777cfcd011",
+        "type": "inject",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 1260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "28be3cf89c3f8606",
+        "type": "mqtt in",
+        "z": "d5397fad8c24e1c4",
+        "name": "TacMesh_Trigger",
+        "topic": "tacmesh/trigger",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "272108da28784153",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 1060,
+        "wires": [
+            [
+                "43764ad692dcf975",
+                "75d1f3526b32849f"
+            ]
+        ]
+    },
+    {
+        "id": "43764ad692dcf975",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "func": "var a = msg.payload;\nvar b = true;\nglobal.set(\"triggernode\",a)\n\na = {\n    \"payload\":a\n}\nb = {\n    \"payload\":b\n}\n\nreturn [a,b];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 1060,
+        "wires": [
+            [
+                "74319ab9e0985712"
+            ],
+            [
+                "5d78c921d5c632d5",
+                "2cf67009ec9d8f96"
+            ]
+        ]
+    },
+    {
+        "id": "75d1f3526b32849f",
+        "type": "delay",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 240,
+        "y": 1100,
+        "wires": [
+            [
+                "66aac685bed0d477"
+            ]
+        ]
+    },
+    {
+        "id": "66aac685bed0d477",
+        "type": "function",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "func": "msg.payload = false;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1100,
+        "wires": [
+            [
+                "5d78c921d5c632d5",
+                "2cf67009ec9d8f96"
+            ]
+        ]
+    },
+    {
+        "id": "2cf67009ec9d8f96",
+        "type": "debug",
+        "z": "d5397fad8c24e1c4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "74319ab9e0985712",
+        "type": "ui_text",
+        "z": "d5397fad8c24e1c4",
+        "group": "83564fd771450c52",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Trigger Node = ",
+        "format": "<b>{{msg.payload}}<b>",
+        "layout": "row-left",
+        "className": "",
+        "x": 380,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "78afea18a6034d61",
+        "type": "ui_spacer",
+        "z": "d5397fad8c24e1c4",
+        "name": "spacer",
+        "group": "83564fd771450c52",
+        "order": 5,
+        "width": 4,
+        "height": 1
+    },
+    {
         "id": "83564fd771450c52",
         "type": "ui_group",
-        "name": "Settings",
+        "name": "Development Testing",
         "tab": "8ccb76735e959900",
         "order": 1,
         "disp": true,
@@ -1749,6 +3513,50 @@
         "className": ""
     },
     {
+        "id": "ba5ff1719fca9970",
+        "type": "ui_group",
+        "name": "Node 3",
+        "tab": "8ccb76735e959900",
+        "order": 4,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "284843a09e7912fe",
+        "type": "ui_group",
+        "name": "Node 4",
+        "tab": "8ccb76735e959900",
+        "order": 5,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "391de97e67b559e9",
+        "type": "ui_group",
+        "name": "Node 5",
+        "tab": "8ccb76735e959900",
+        "order": 6,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c525591f44bcf547",
+        "type": "ui_group",
+        "name": "Node 6",
+        "tab": "8ccb76735e959900",
+        "order": 7,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
         "id": "8ccb76735e959900",
         "type": "ui_tab",
         "name": "TacMesh",
@@ -1762,7 +3570,7 @@
         "type": "ui_tab",
         "name": "LivingRoom",
         "icon": "iconify-iconoir:two-seater-sofa",
-        "order": 2,
+        "order": 4,
         "disabled": false,
         "hidden": false
     }
