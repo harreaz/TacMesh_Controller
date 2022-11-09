@@ -1,135 +1,54 @@
 [
     {
-        "id": "a8b176eac9d30a9f",
+        "id": "92ecd57e6257a18f",
         "type": "subflow",
-        "name": "Subflow 2",
+        "name": "Subflow 9",
         "info": "",
-        "in": [
-            {
-                "x": 220,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "9e15f83e4049df67"
-                    },
-                    {
-                        "id": "bd214d8a1d659f92"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 720,
-                "y": 180,
-                "wires": [
-                    {
-                        "id": "4cddfad4b4ae3514",
-                        "port": 0
-                    }
-                ]
-            },
-            {
-                "x": 620,
-                "y": 220,
-                "wires": [
-                    {
-                        "id": "648c1faba5c939f7",
-                        "port": 0
-                    }
-                ]
-            },
-            {
-                "x": 620,
-                "y": 340,
-                "wires": [
-                    {
-                        "id": "95eb54e86fce544c",
-                        "port": 0
-                    }
-                ]
-            }
-        ]
+        "in": [],
+        "out": []
     },
     {
-        "id": "4cddfad4b4ae3514",
+        "id": "8fd645c016bbf279",
         "type": "function",
-        "z": "a8b176eac9d30a9f",
+        "z": "92ecd57e6257a18f",
         "name": "Voltage",
-        "func": "var nodeName = \"Node2\"\n\nif (msg.payload.nodeName == nodeName){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "func": "var nodeName = \"Node9\"\n\nif (msg.payload.nodeName == nodeName){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 580,
-        "y": 140,
+        "x": 540,
+        "y": 160,
         "wires": [
             [
-                "8ab8de5aa1654376",
-                "1666a2b7e9184053",
-                "bd157353e5130634"
+                "5ad4d5c2488de03b"
             ]
         ]
     },
     {
-        "id": "8ab8de5aa1654376",
-        "type": "debug",
-        "z": "a8b176eac9d30a9f",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 770,
-        "y": 140,
-        "wires": []
-    },
-    {
-        "id": "9e15f83e4049df67",
-        "type": "debug",
-        "z": "a8b176eac9d30a9f",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 390,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "648c1faba5c939f7",
+        "id": "c6d186c3f33516c0",
         "type": "function",
-        "z": "a8b176eac9d30a9f",
+        "z": "92ecd57e6257a18f",
         "name": "",
-        "func": "var nodeName = \"Node2\"\nvar count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == nodeName){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "func": "var nodeName = \"Node9\";\nvar count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == nodeName){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
         "x": 400,
-        "y": 260,
+        "y": 240,
         "wires": [
             [
-                "bab2f5a5dc1fa072",
-                "d946e789a3cda08b"
+                "d964e040b684ec11"
             ]
         ]
     },
     {
-        "id": "08ce0932635b35aa",
+        "id": "caa3a191b611bd2d",
         "type": "inject",
-        "z": "a8b176eac9d30a9f",
+        "z": "92ecd57e6257a18f",
         "name": "",
         "props": [
             {
@@ -143,70 +62,20 @@
         "topic": "",
         "payload": "countup",
         "payloadType": "str",
-        "x": 240,
+        "x": 200,
         "y": 260,
         "wires": [
             [
-                "648c1faba5c939f7"
+                "c6d186c3f33516c0",
+                "8956f54ae6050e4d"
             ]
         ]
     },
     {
-        "id": "bab2f5a5dc1fa072",
-        "type": "debug",
-        "z": "a8b176eac9d30a9f",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 670,
-        "y": 300,
-        "wires": []
-    },
-    {
-        "id": "9d8aaa132a101b20",
-        "type": "ping",
-        "z": "a8b176eac9d30a9f",
-        "protocol": "Automatic",
-        "mode": "timed",
-        "name": "Wemos",
-        "host": "172.16.0.41",
-        "timer": "5",
-        "inputs": 0,
-        "x": 310,
-        "y": 380,
-        "wires": [
-            [
-                "95eb54e86fce544c"
-            ]
-        ]
-    },
-    {
-        "id": "01fbb44c0d61ac66",
-        "type": "debug",
-        "z": "a8b176eac9d30a9f",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 670,
-        "y": 380,
-        "wires": []
-    },
-    {
-        "id": "d946e789a3cda08b",
+        "id": "d964e040b684ec11",
         "type": "ui_text",
-        "z": "a8b176eac9d30a9f",
-        "group": "2ed1f6d64d08baa6",
+        "z": "92ecd57e6257a18f",
+        "group": "47835efed891c188",
         "order": 3,
         "width": 3,
         "height": 1,
@@ -215,68 +84,51 @@
         "format": "{{msg.payload}}",
         "layout": "col-center",
         "className": "",
-        "x": 670,
-        "y": 260,
+        "x": 570,
+        "y": 240,
         "wires": []
     },
     {
-        "id": "95eb54e86fce544c",
+        "id": "8956f54ae6050e4d",
         "type": "function",
-        "z": "a8b176eac9d30a9f",
+        "z": "92ecd57e6257a18f",
         "name": "",
-        "func": "if (msg.payload > 0)\n{\n    msg.payload = true\n}\n\nelse if(msg.payload == false)\n{\n    msg.payload = false\n}\n\nreturn msg;",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == \"Node9\"){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 460,
-        "y": 380,
+        "x": 400,
+        "y": 280,
         "wires": [
             [
-                "01fbb44c0d61ac66",
-                "df5aa84be9826e8b"
+                "10faf9282187b996"
             ]
         ]
     },
     {
-        "id": "bd214d8a1d659f92",
+        "id": "c63ec5c2e7d1c997",
         "type": "json",
-        "z": "a8b176eac9d30a9f",
+        "z": "92ecd57e6257a18f",
         "name": "",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 370,
-        "y": 140,
+        "x": 330,
+        "y": 160,
         "wires": [
             [
-                "4cddfad4b4ae3514",
-                "648c1faba5c939f7"
+                "8fd645c016bbf279",
+                "c6d186c3f33516c0",
+                "8956f54ae6050e4d"
             ]
         ]
     },
     {
-        "id": "1666a2b7e9184053",
-        "type": "debug",
-        "z": "a8b176eac9d30a9f",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "topic",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 760,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "bd157353e5130634",
+        "id": "5ad4d5c2488de03b",
         "type": "range",
-        "z": "a8b176eac9d30a9f",
+        "z": "92ecd57e6257a18f",
         "minin": "8.8",
         "maxin": "12.2",
         "minout": "0",
@@ -285,20 +137,20 @@
         "round": true,
         "property": "payload",
         "name": "",
-        "x": 580,
-        "y": 100,
+        "x": 560,
+        "y": 200,
         "wires": [
             [
-                "ca7255593f67831e"
+                "0f19bf9c1c385f7b"
             ]
         ]
     },
     {
-        "id": "df5aa84be9826e8b",
+        "id": "10faf9282187b996",
         "type": "ui_led",
-        "z": "a8b176eac9d30a9f",
+        "z": "92ecd57e6257a18f",
         "order": 1,
-        "group": "2ed1f6d64d08baa6",
+        "group": "47835efed891c188",
         "width": 3,
         "height": 1,
         "label": "",
@@ -320,15 +172,15 @@
         "shape": "circle",
         "showGlow": true,
         "name": "",
-        "x": 690,
-        "y": 420,
+        "x": 550,
+        "y": 280,
         "wires": []
     },
     {
-        "id": "ca7255593f67831e",
+        "id": "0f19bf9c1c385f7b",
         "type": "ui_artlessgauge",
-        "z": "a8b176eac9d30a9f",
-        "group": "2ed1f6d64d08baa6",
+        "z": "92ecd57e6257a18f",
+        "group": "47835efed891c188",
         "order": 2,
         "width": 3,
         "height": 3,
@@ -382,14 +234,1114 @@
         "lineWidth": "7",
         "bgcolorFromTheme": true,
         "diffCenter": "25",
-        "x": 760,
-        "y": 60,
+        "x": 700,
+        "y": 200,
         "wires": []
     },
     {
-        "id": "2790ab455fc08adb",
+        "id": "d77ce6733717fd3e",
         "type": "inject",
-        "z": "a8b176eac9d30a9f",
+        "z": "92ecd57e6257a18f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"nodeName\":\"Node9\" , \"Voltage\": 12.6}",
+        "payloadType": "str",
+        "x": 190,
+        "y": 160,
+        "wires": [
+            [
+                "c63ec5c2e7d1c997"
+            ]
+        ]
+    },
+    {
+        "id": "47835efed891c188",
+        "type": "ui_group",
+        "name": "Node 9",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 10,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9f10e235415e4162",
+        "type": "subflow",
+        "name": "Subflow 10",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
+        "id": "aaa4bf826fbe5f41",
+        "type": "function",
+        "z": "9f10e235415e4162",
+        "name": "Voltage",
+        "func": "var nodeName = \"Node10\"\n\nif (msg.payload.nodeName == nodeName){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 140,
+        "wires": [
+            [
+                "cf879a40db7d5542"
+            ]
+        ]
+    },
+    {
+        "id": "c250e075ec6299fc",
+        "type": "function",
+        "z": "9f10e235415e4162",
+        "name": "",
+        "func": "var nodeName = \"Node10\";\nvar count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == nodeName){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 220,
+        "wires": [
+            [
+                "7569ceef34965bc1"
+            ]
+        ]
+    },
+    {
+        "id": "8e8c21f965bc3568",
+        "type": "inject",
+        "z": "9f10e235415e4162",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 320,
+        "y": 240,
+        "wires": [
+            [
+                "c250e075ec6299fc",
+                "7878ef47cb86a9b6"
+            ]
+        ]
+    },
+    {
+        "id": "7569ceef34965bc1",
+        "type": "ui_text",
+        "z": "9f10e235415e4162",
+        "group": "2c8e7e39c820254f",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 690,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "7878ef47cb86a9b6",
+        "type": "function",
+        "z": "9f10e235415e4162",
+        "name": "",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == \"Node10\"){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 260,
+        "wires": [
+            [
+                "97906ecd4ac98e68"
+            ]
+        ]
+    },
+    {
+        "id": "2c1caa496a9f8995",
+        "type": "json",
+        "z": "9f10e235415e4162",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 450,
+        "y": 140,
+        "wires": [
+            [
+                "aaa4bf826fbe5f41",
+                "c250e075ec6299fc",
+                "7878ef47cb86a9b6"
+            ]
+        ]
+    },
+    {
+        "id": "cf879a40db7d5542",
+        "type": "range",
+        "z": "9f10e235415e4162",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 680,
+        "y": 180,
+        "wires": [
+            [
+                "ddc2f4080991d09c"
+            ]
+        ]
+    },
+    {
+        "id": "97906ecd4ac98e68",
+        "type": "ui_led",
+        "z": "9f10e235415e4162",
+        "order": 1,
+        "group": "2c8e7e39c820254f",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 670,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "ddc2f4080991d09c",
+        "type": "ui_artlessgauge",
+        "z": "9f10e235415e4162",
+        "group": "2c8e7e39c820254f",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 820,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "b1ba38299a9b25a7",
+        "type": "inject",
+        "z": "9f10e235415e4162",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"nodeName\":\"Node10\" , \"Voltage\": 12.6}",
+        "payloadType": "str",
+        "x": 310,
+        "y": 140,
+        "wires": [
+            [
+                "2c1caa496a9f8995"
+            ]
+        ]
+    },
+    {
+        "id": "2c8e7e39c820254f",
+        "type": "ui_group",
+        "name": "Node 10",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 11,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "de572c5bbb22ac12",
+        "type": "subflow",
+        "name": "Subflow 8",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
+        "id": "b1ab6518f511b9d8",
+        "type": "function",
+        "z": "de572c5bbb22ac12",
+        "name": "Voltage",
+        "func": "var nodeName = \"Node8\"\n\nif (msg.payload.nodeName == nodeName){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 180,
+        "wires": [
+            [
+                "ef74acf705e62019"
+            ]
+        ]
+    },
+    {
+        "id": "eeed20bb75618270",
+        "type": "function",
+        "z": "de572c5bbb22ac12",
+        "name": "",
+        "func": "var nodeName = \"Node8\";\nvar count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == nodeName){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 260,
+        "wires": [
+            [
+                "d34d5315b9f0d3e4"
+            ]
+        ]
+    },
+    {
+        "id": "a94361914e612a0f",
+        "type": "inject",
+        "z": "de572c5bbb22ac12",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 280,
+        "y": 280,
+        "wires": [
+            [
+                "eeed20bb75618270",
+                "8bfd975c9cc3cad5"
+            ]
+        ]
+    },
+    {
+        "id": "d34d5315b9f0d3e4",
+        "type": "ui_text",
+        "z": "de572c5bbb22ac12",
+        "group": "d29523623d9184cf",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 650,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "8bfd975c9cc3cad5",
+        "type": "function",
+        "z": "de572c5bbb22ac12",
+        "name": "",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == \"Node8\"){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 300,
+        "wires": [
+            [
+                "903868e058318284"
+            ]
+        ]
+    },
+    {
+        "id": "0fce8493f39252d2",
+        "type": "json",
+        "z": "de572c5bbb22ac12",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 410,
+        "y": 180,
+        "wires": [
+            [
+                "b1ab6518f511b9d8",
+                "eeed20bb75618270",
+                "8bfd975c9cc3cad5"
+            ]
+        ]
+    },
+    {
+        "id": "ef74acf705e62019",
+        "type": "range",
+        "z": "de572c5bbb22ac12",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 640,
+        "y": 220,
+        "wires": [
+            [
+                "71a8ff779e3da148"
+            ]
+        ]
+    },
+    {
+        "id": "903868e058318284",
+        "type": "ui_led",
+        "z": "de572c5bbb22ac12",
+        "order": 1,
+        "group": "d29523623d9184cf",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 630,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "71a8ff779e3da148",
+        "type": "ui_artlessgauge",
+        "z": "de572c5bbb22ac12",
+        "group": "d29523623d9184cf",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 780,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "86ae90b041e2b73b",
+        "type": "inject",
+        "z": "de572c5bbb22ac12",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"nodeName\":\"Node8\" , \"Voltage\": 12.6}",
+        "payloadType": "str",
+        "x": 270,
+        "y": 180,
+        "wires": [
+            [
+                "0fce8493f39252d2"
+            ]
+        ]
+    },
+    {
+        "id": "d29523623d9184cf",
+        "type": "ui_group",
+        "name": "Node 8",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 9,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e8533a8d7456ba12",
+        "type": "subflow",
+        "name": "Subflow 7",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
+        "id": "fb2462c7a2fdd07b",
+        "type": "function",
+        "z": "e8533a8d7456ba12",
+        "name": "Voltage",
+        "func": "var nodeName = \"Node7\"\n\nif (msg.payload.nodeName == nodeName){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 160,
+        "wires": [
+            [
+                "9ba62ab253031ed1"
+            ]
+        ]
+    },
+    {
+        "id": "5e19c3978aaae897",
+        "type": "function",
+        "z": "e8533a8d7456ba12",
+        "name": "",
+        "func": "var nodeName = \"Node7\";\nvar count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == nodeName){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 240,
+        "wires": [
+            [
+                "8a429ce319a18ee0"
+            ]
+        ]
+    },
+    {
+        "id": "b4ec1912ca1cebc4",
+        "type": "inject",
+        "z": "e8533a8d7456ba12",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 280,
+        "y": 260,
+        "wires": [
+            [
+                "5e19c3978aaae897",
+                "5c2538f39e67557c"
+            ]
+        ]
+    },
+    {
+        "id": "8a429ce319a18ee0",
+        "type": "ui_text",
+        "z": "e8533a8d7456ba12",
+        "group": "79fc8a977e96455c",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 650,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "5c2538f39e67557c",
+        "type": "function",
+        "z": "e8533a8d7456ba12",
+        "name": "",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == \"Node7\"){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 280,
+        "wires": [
+            [
+                "e2ac7e5f5207458c"
+            ]
+        ]
+    },
+    {
+        "id": "89eb0d73796aab1f",
+        "type": "json",
+        "z": "e8533a8d7456ba12",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "fb2462c7a2fdd07b",
+                "5e19c3978aaae897",
+                "5c2538f39e67557c"
+            ]
+        ]
+    },
+    {
+        "id": "9ba62ab253031ed1",
+        "type": "range",
+        "z": "e8533a8d7456ba12",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 640,
+        "y": 200,
+        "wires": [
+            [
+                "6546c18111ea42fa"
+            ]
+        ]
+    },
+    {
+        "id": "e2ac7e5f5207458c",
+        "type": "ui_led",
+        "z": "e8533a8d7456ba12",
+        "order": 1,
+        "group": "79fc8a977e96455c",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 630,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "6546c18111ea42fa",
+        "type": "ui_artlessgauge",
+        "z": "e8533a8d7456ba12",
+        "group": "79fc8a977e96455c",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 780,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "60ece043400b05be",
+        "type": "inject",
+        "z": "e8533a8d7456ba12",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"nodeName\":\"Node7\" , \"Voltage\": 12.6}",
+        "payloadType": "str",
+        "x": 270,
+        "y": 160,
+        "wires": [
+            [
+                "89eb0d73796aab1f"
+            ]
+        ]
+    },
+    {
+        "id": "79fc8a977e96455c",
+        "type": "ui_group",
+        "name": "Node 7",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 8,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1daf2959585bda76",
+        "type": "subflow",
+        "name": "Subflow 6",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
+        "id": "80596380f401464c",
+        "type": "function",
+        "z": "1daf2959585bda76",
+        "name": "Voltage",
+        "func": "var nodeName = \"Node6\"\n\nif (msg.payload.nodeName == nodeName){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 160,
+        "wires": [
+            [
+                "c75bf48a15ef87e9"
+            ]
+        ]
+    },
+    {
+        "id": "8b2a2c3564f54fcf",
+        "type": "function",
+        "z": "1daf2959585bda76",
+        "name": "",
+        "func": "var nodeName = \"Node6\";\nvar count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == nodeName){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 240,
+        "wires": [
+            [
+                "e0c4a9f65ec50b32"
+            ]
+        ]
+    },
+    {
+        "id": "ec2e45586755cbea",
+        "type": "inject",
+        "z": "1daf2959585bda76",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 300,
+        "y": 260,
+        "wires": [
+            [
+                "8b2a2c3564f54fcf",
+                "866302b4f44c3093"
+            ]
+        ]
+    },
+    {
+        "id": "e0c4a9f65ec50b32",
+        "type": "ui_text",
+        "z": "1daf2959585bda76",
+        "group": "c3a8697cce6aa337",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 670,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "866302b4f44c3093",
+        "type": "function",
+        "z": "1daf2959585bda76",
+        "name": "",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == \"Node6\"){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 280,
+        "wires": [
+            [
+                "f4685471ef5acf30"
+            ]
+        ]
+    },
+    {
+        "id": "13e3a8a2bffe2322",
+        "type": "json",
+        "z": "1daf2959585bda76",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 430,
+        "y": 160,
+        "wires": [
+            [
+                "80596380f401464c",
+                "8b2a2c3564f54fcf",
+                "866302b4f44c3093"
+            ]
+        ]
+    },
+    {
+        "id": "c75bf48a15ef87e9",
+        "type": "range",
+        "z": "1daf2959585bda76",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 660,
+        "y": 200,
+        "wires": [
+            [
+                "690d51235873bdb2"
+            ]
+        ]
+    },
+    {
+        "id": "f4685471ef5acf30",
+        "type": "ui_led",
+        "z": "1daf2959585bda76",
+        "order": 1,
+        "group": "c3a8697cce6aa337",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 650,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "690d51235873bdb2",
+        "type": "ui_artlessgauge",
+        "z": "1daf2959585bda76",
+        "group": "c3a8697cce6aa337",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 800,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "df2dae5fcc00ee84",
+        "type": "inject",
+        "z": "1daf2959585bda76",
         "name": "",
         "props": [
             {
@@ -403,28 +1355,1128 @@
         "topic": "",
         "payload": "{\"nodeName\":\"Node6\" , \"Voltage\": 12.6}",
         "payloadType": "str",
-        "x": 190,
-        "y": 80,
+        "x": 290,
+        "y": 160,
         "wires": [
             [
-                "bd214d8a1d659f92"
+                "13e3a8a2bffe2322"
             ]
         ]
     },
     {
-        "id": "2ed1f6d64d08baa6",
+        "id": "c3a8697cce6aa337",
         "type": "ui_group",
-        "z": "a8b176eac9d30a9f",
-        "name": "Node2",
-        "tab": "0be10d0c87f97be6",
-        "order": 3,
+        "name": "Node 6",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 7,
         "disp": true,
         "width": 3,
         "collapse": false,
         "className": ""
     },
     {
-        "id": "a16d4838796583b7",
+        "id": "cf3b2373529d6dcb",
+        "type": "subflow",
+        "name": "Subflow 5",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
+        "id": "648dd541baba476c",
+        "type": "function",
+        "z": "cf3b2373529d6dcb",
+        "name": "Voltage",
+        "func": "var nodeName = \"Node5\"\n\nif (msg.payload.nodeName == nodeName){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 120,
+        "wires": [
+            [
+                "efaaf9765cf0a8f4"
+            ]
+        ]
+    },
+    {
+        "id": "0a84deca72f3982c",
+        "type": "function",
+        "z": "cf3b2373529d6dcb",
+        "name": "",
+        "func": "var nodeName = \"Node5\";\nvar count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == nodeName){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 200,
+        "wires": [
+            [
+                "1917c49cc046545f"
+            ]
+        ]
+    },
+    {
+        "id": "a0c44f3ca3f8184f",
+        "type": "inject",
+        "z": "cf3b2373529d6dcb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 300,
+        "y": 220,
+        "wires": [
+            [
+                "0a84deca72f3982c",
+                "f974c00feaad5759"
+            ]
+        ]
+    },
+    {
+        "id": "1917c49cc046545f",
+        "type": "ui_text",
+        "z": "cf3b2373529d6dcb",
+        "group": "c1f4cc53fd58dd28",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 670,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "f974c00feaad5759",
+        "type": "function",
+        "z": "cf3b2373529d6dcb",
+        "name": "",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == \"Node5\"){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 240,
+        "wires": [
+            [
+                "5a673bd478190e40"
+            ]
+        ]
+    },
+    {
+        "id": "78185576e553d7c2",
+        "type": "json",
+        "z": "cf3b2373529d6dcb",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 430,
+        "y": 120,
+        "wires": [
+            [
+                "648dd541baba476c",
+                "0a84deca72f3982c",
+                "f974c00feaad5759"
+            ]
+        ]
+    },
+    {
+        "id": "efaaf9765cf0a8f4",
+        "type": "range",
+        "z": "cf3b2373529d6dcb",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 660,
+        "y": 160,
+        "wires": [
+            [
+                "6cdbfb9598405904"
+            ]
+        ]
+    },
+    {
+        "id": "5a673bd478190e40",
+        "type": "ui_led",
+        "z": "cf3b2373529d6dcb",
+        "order": 1,
+        "group": "c1f4cc53fd58dd28",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 650,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "6cdbfb9598405904",
+        "type": "ui_artlessgauge",
+        "z": "cf3b2373529d6dcb",
+        "group": "c1f4cc53fd58dd28",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 800,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "eede65db1dc1f3bb",
+        "type": "inject",
+        "z": "cf3b2373529d6dcb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"nodeName\":\"Node5\" , \"Voltage\": 12.6}",
+        "payloadType": "str",
+        "x": 290,
+        "y": 120,
+        "wires": [
+            [
+                "78185576e553d7c2"
+            ]
+        ]
+    },
+    {
+        "id": "c1f4cc53fd58dd28",
+        "type": "ui_group",
+        "name": "Node 5",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 6,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d4d66e4cfdfd3b8c",
+        "type": "subflow",
+        "name": "Subflow 2",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
+        "id": "4e5644d2ed4fc30a",
+        "type": "function",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "Voltage",
+        "func": "var nodeName = \"Node2\"\n\nif (msg.payload.nodeName == nodeName){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 140,
+        "wires": [
+            [
+                "4a6273d4c6e7a251"
+            ]
+        ]
+    },
+    {
+        "id": "efb25f61ee67c8f4",
+        "type": "function",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "",
+        "func": "var nodeName = \"Node2\";\nvar count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == nodeName){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 260,
+        "wires": [
+            [
+                "b94e1a72c4e579c6"
+            ]
+        ]
+    },
+    {
+        "id": "68e71087a99cbb15",
+        "type": "inject",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 280,
+        "y": 260,
+        "wires": [
+            [
+                "efb25f61ee67c8f4",
+                "c493f35388e0b295"
+            ]
+        ]
+    },
+    {
+        "id": "b94e1a72c4e579c6",
+        "type": "ui_text",
+        "z": "d4d66e4cfdfd3b8c",
+        "group": "415553c6fb85601c",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 710,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "c493f35388e0b295",
+        "type": "function",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == \"Node2\"){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 400,
+        "wires": [
+            [
+                "2b054768893b7d13"
+            ]
+        ]
+    },
+    {
+        "id": "5519878ee8c221b6",
+        "type": "json",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 410,
+        "y": 140,
+        "wires": [
+            [
+                "4e5644d2ed4fc30a",
+                "efb25f61ee67c8f4",
+                "c493f35388e0b295"
+            ]
+        ]
+    },
+    {
+        "id": "4a6273d4c6e7a251",
+        "type": "range",
+        "z": "d4d66e4cfdfd3b8c",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 620,
+        "y": 100,
+        "wires": [
+            [
+                "9c61ecb101bae01a"
+            ]
+        ]
+    },
+    {
+        "id": "2b054768893b7d13",
+        "type": "ui_led",
+        "z": "d4d66e4cfdfd3b8c",
+        "order": 1,
+        "group": "415553c6fb85601c",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 690,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "9c61ecb101bae01a",
+        "type": "ui_artlessgauge",
+        "z": "d4d66e4cfdfd3b8c",
+        "group": "415553c6fb85601c",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 800,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "ada7e7eafe0a6f64",
+        "type": "inject",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"nodeName\":\"Node2\" , \"Voltage\": 12.6}",
+        "payloadType": "str",
+        "x": 230,
+        "y": 80,
+        "wires": [
+            [
+                "5519878ee8c221b6"
+            ]
+        ]
+    },
+    {
+        "id": "415553c6fb85601c",
+        "type": "ui_group",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "Node2",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 3,
+        "disp": true,
+        "width": "3",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5e304daf39eec074",
+        "type": "subflow",
+        "name": "Subflow 4",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
+        "id": "e83eea3111881375",
+        "type": "function",
+        "z": "5e304daf39eec074",
+        "name": "Voltage",
+        "func": "var nodeName = \"Node4\"\n\nif (msg.payload.nodeName == nodeName){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 140,
+        "wires": [
+            [
+                "1f9b06b75e3c9091"
+            ]
+        ]
+    },
+    {
+        "id": "9b939f251031209a",
+        "type": "function",
+        "z": "5e304daf39eec074",
+        "name": "",
+        "func": "var nodeName = \"Node4\";\nvar count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == nodeName){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 220,
+        "wires": [
+            [
+                "68855e67b05ae230"
+            ]
+        ]
+    },
+    {
+        "id": "deeabdf1028edddd",
+        "type": "inject",
+        "z": "5e304daf39eec074",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 280,
+        "y": 240,
+        "wires": [
+            [
+                "9b939f251031209a",
+                "34c4617350fb8395"
+            ]
+        ]
+    },
+    {
+        "id": "68855e67b05ae230",
+        "type": "ui_text",
+        "z": "5e304daf39eec074",
+        "group": "4ad4a79eec4369ce",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 650,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "34c4617350fb8395",
+        "type": "function",
+        "z": "5e304daf39eec074",
+        "name": "",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == \"Node4\"){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 260,
+        "wires": [
+            [
+                "75349270a30292c5"
+            ]
+        ]
+    },
+    {
+        "id": "a30e69c51dbef72e",
+        "type": "json",
+        "z": "5e304daf39eec074",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 410,
+        "y": 140,
+        "wires": [
+            [
+                "e83eea3111881375",
+                "9b939f251031209a",
+                "34c4617350fb8395"
+            ]
+        ]
+    },
+    {
+        "id": "1f9b06b75e3c9091",
+        "type": "range",
+        "z": "5e304daf39eec074",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 640,
+        "y": 180,
+        "wires": [
+            [
+                "b83774009c951af5"
+            ]
+        ]
+    },
+    {
+        "id": "75349270a30292c5",
+        "type": "ui_led",
+        "z": "5e304daf39eec074",
+        "order": 1,
+        "group": "4ad4a79eec4369ce",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 630,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "b83774009c951af5",
+        "type": "ui_artlessgauge",
+        "z": "5e304daf39eec074",
+        "group": "4ad4a79eec4369ce",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 780,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "ca93fc18d2e27908",
+        "type": "inject",
+        "z": "5e304daf39eec074",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"nodeName\":\"Node4\" , \"Voltage\": 12.6}",
+        "payloadType": "str",
+        "x": 270,
+        "y": 140,
+        "wires": [
+            [
+                "a30e69c51dbef72e"
+            ]
+        ]
+    },
+    {
+        "id": "4ad4a79eec4369ce",
+        "type": "ui_group",
+        "name": "Node 4",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 5,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "24dc22ca0c92ec0a",
+        "type": "subflow",
+        "name": "Subflow 3",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
+        "id": "1a6e8d8680644cd3",
+        "type": "function",
+        "z": "24dc22ca0c92ec0a",
+        "name": "Voltage",
+        "func": "var nodeName = \"Node3\"\n\nif (msg.payload.nodeName == nodeName){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 180,
+        "wires": [
+            [
+                "fa96abeda98901f8"
+            ]
+        ]
+    },
+    {
+        "id": "c4fdada16b18ab72",
+        "type": "function",
+        "z": "24dc22ca0c92ec0a",
+        "name": "",
+        "func": "var nodeName = \"Node3\";\nvar count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == nodeName){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 260,
+        "wires": [
+            [
+                "99b60298640abbee"
+            ]
+        ]
+    },
+    {
+        "id": "c1d065cf8dc1af82",
+        "type": "inject",
+        "z": "24dc22ca0c92ec0a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 300,
+        "y": 280,
+        "wires": [
+            [
+                "c4fdada16b18ab72",
+                "dede518cead7cfe9"
+            ]
+        ]
+    },
+    {
+        "id": "99b60298640abbee",
+        "type": "ui_text",
+        "z": "24dc22ca0c92ec0a",
+        "group": "f826df36ab98b799",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 670,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "dede518cead7cfe9",
+        "type": "function",
+        "z": "24dc22ca0c92ec0a",
+        "name": "",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == \"Node3\"){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 300,
+        "wires": [
+            [
+                "916c88903b109e33"
+            ]
+        ]
+    },
+    {
+        "id": "323e6b60d9f0d8e1",
+        "type": "json",
+        "z": "24dc22ca0c92ec0a",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 430,
+        "y": 180,
+        "wires": [
+            [
+                "1a6e8d8680644cd3",
+                "c4fdada16b18ab72",
+                "dede518cead7cfe9"
+            ]
+        ]
+    },
+    {
+        "id": "fa96abeda98901f8",
+        "type": "range",
+        "z": "24dc22ca0c92ec0a",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 660,
+        "y": 220,
+        "wires": [
+            [
+                "63325623185ab2fd"
+            ]
+        ]
+    },
+    {
+        "id": "916c88903b109e33",
+        "type": "ui_led",
+        "z": "24dc22ca0c92ec0a",
+        "order": 1,
+        "group": "f826df36ab98b799",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 650,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "63325623185ab2fd",
+        "type": "ui_artlessgauge",
+        "z": "24dc22ca0c92ec0a",
+        "group": "f826df36ab98b799",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 800,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "31109a929b4e9ac2",
+        "type": "inject",
+        "z": "24dc22ca0c92ec0a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"nodeName\":\"Node3\" , \"Voltage\": 12.6}",
+        "payloadType": "str",
+        "x": 290,
+        "y": 180,
+        "wires": [
+            [
+                "323e6b60d9f0d8e1"
+            ]
+        ]
+    },
+    {
+        "id": "f826df36ab98b799",
+        "type": "ui_group",
+        "name": "Node 3",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 4,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5f1ba7d06cd6b121",
         "type": "subflow",
         "name": "Subflow 1",
         "info": "",
@@ -435,7 +2487,7 @@
                 "y": 160,
                 "wires": [
                     {
-                        "id": "089b9953ce1d7df8"
+                        "id": "e5947c15eb9f0ac0"
                     }
                 ]
             }
@@ -446,7 +2498,7 @@
                 "y": 160,
                 "wires": [
                     {
-                        "id": "ee5ca95c370d6ef9",
+                        "id": "7fa414396e732e79",
                         "port": 0
                     }
                 ]
@@ -456,7 +2508,7 @@
                 "y": 240,
                 "wires": [
                     {
-                        "id": "14ffcfb98bf71e38",
+                        "id": "2419a7a98d2bb761",
                         "port": 0
                     }
                 ]
@@ -466,7 +2518,7 @@
                 "y": 380,
                 "wires": [
                     {
-                        "id": "5ee2c20115d43210",
+                        "id": "49ed53560132716a",
                         "port": 0
                     }
                 ]
@@ -477,9 +2529,9 @@
         "color": "#DDAA99"
     },
     {
-        "id": "ee5ca95c370d6ef9",
+        "id": "7fa414396e732e79",
         "type": "function",
-        "z": "a16d4838796583b7",
+        "z": "5f1ba7d06cd6b121",
         "name": "Voltage",
         "func": "var nodeName = \"Node6\"\n\nif (msg.payload.nodeName == nodeName){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
         "outputs": 1,
@@ -491,14 +2543,14 @@
         "y": 160,
         "wires": [
             [
-                "9cf87460ef753e1d"
+                "e6a73ba725880eb6"
             ]
         ]
     },
     {
-        "id": "14ffcfb98bf71e38",
+        "id": "2419a7a98d2bb761",
         "type": "function",
-        "z": "a16d4838796583b7",
+        "z": "5f1ba7d06cd6b121",
         "name": "",
         "func": "var nodeName = \"Node6\"\nvar count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == nodeName){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
         "outputs": 1,
@@ -510,14 +2562,14 @@
         "y": 280,
         "wires": [
             [
-                "4ef134e5daf89d2d"
+                "5c28cab1527acd3b"
             ]
         ]
     },
     {
-        "id": "b0156fd25c189ee0",
+        "id": "fa9d6e9b35abc38f",
         "type": "inject",
-        "z": "a16d4838796583b7",
+        "z": "5f1ba7d06cd6b121",
         "name": "",
         "props": [
             {
@@ -535,16 +2587,16 @@
         "y": 280,
         "wires": [
             [
-                "14ffcfb98bf71e38",
-                "5ee2c20115d43210"
+                "2419a7a98d2bb761",
+                "49ed53560132716a"
             ]
         ]
     },
     {
-        "id": "4ef134e5daf89d2d",
+        "id": "5c28cab1527acd3b",
         "type": "ui_text",
-        "z": "a16d4838796583b7",
-        "group": "8112e10fdc4a1869",
+        "z": "5f1ba7d06cd6b121",
+        "group": "1017f83a38e21cc1",
         "order": 3,
         "width": 3,
         "height": 1,
@@ -558,9 +2610,9 @@
         "wires": []
     },
     {
-        "id": "5ee2c20115d43210",
+        "id": "49ed53560132716a",
         "type": "function",
-        "z": "a16d4838796583b7",
+        "z": "5f1ba7d06cd6b121",
         "name": "",
         "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == \"Node6\"){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
         "outputs": 1,
@@ -572,14 +2624,14 @@
         "y": 420,
         "wires": [
             [
-                "824a3da31ee26279"
+                "746fd05356216a91"
             ]
         ]
     },
     {
-        "id": "089b9953ce1d7df8",
+        "id": "e5947c15eb9f0ac0",
         "type": "json",
-        "z": "a16d4838796583b7",
+        "z": "5f1ba7d06cd6b121",
         "name": "",
         "property": "payload",
         "action": "",
@@ -588,16 +2640,16 @@
         "y": 160,
         "wires": [
             [
-                "ee5ca95c370d6ef9",
-                "14ffcfb98bf71e38",
-                "5ee2c20115d43210"
+                "7fa414396e732e79",
+                "2419a7a98d2bb761",
+                "49ed53560132716a"
             ]
         ]
     },
     {
-        "id": "9cf87460ef753e1d",
+        "id": "e6a73ba725880eb6",
         "type": "range",
-        "z": "a16d4838796583b7",
+        "z": "5f1ba7d06cd6b121",
         "minin": "8.8",
         "maxin": "12.2",
         "minout": "0",
@@ -610,16 +2662,16 @@
         "y": 120,
         "wires": [
             [
-                "11e681541d8d1ff2"
+                "6025e94788a8d367"
             ]
         ]
     },
     {
-        "id": "824a3da31ee26279",
+        "id": "746fd05356216a91",
         "type": "ui_led",
-        "z": "a16d4838796583b7",
+        "z": "5f1ba7d06cd6b121",
         "order": 1,
-        "group": "8112e10fdc4a1869",
+        "group": "1017f83a38e21cc1",
         "width": 3,
         "height": 1,
         "label": "",
@@ -646,10 +2698,10 @@
         "wires": []
     },
     {
-        "id": "11e681541d8d1ff2",
+        "id": "6025e94788a8d367",
         "type": "ui_artlessgauge",
-        "z": "a16d4838796583b7",
-        "group": "8112e10fdc4a1869",
+        "z": "5f1ba7d06cd6b121",
+        "group": "1017f83a38e21cc1",
         "order": 2,
         "width": 3,
         "height": 3,
@@ -708,9 +2760,9 @@
         "wires": []
     },
     {
-        "id": "a75fd0f4bf381e2f",
+        "id": "562432bfaed21496",
         "type": "inject",
-        "z": "a16d4838796583b7",
+        "z": "5f1ba7d06cd6b121",
         "name": "",
         "props": [
             {
@@ -728,15 +2780,15 @@
         "y": 100,
         "wires": [
             [
-                "089b9953ce1d7df8"
+                "e5947c15eb9f0ac0"
             ]
         ]
     },
     {
-        "id": "8112e10fdc4a1869",
+        "id": "1017f83a38e21cc1",
         "type": "ui_group",
         "name": "Node1",
-        "tab": "0be10d0c87f97be6",
+        "tab": "7dfc3c702e35fbbc",
         "order": 2,
         "disp": true,
         "width": "3",
@@ -744,7 +2796,7 @@
         "className": ""
     },
     {
-        "id": "0be10d0c87f97be6",
+        "id": "7dfc3c702e35fbbc",
         "type": "ui_tab",
         "name": "Home",
         "icon": "dashboard",
@@ -752,7 +2804,7 @@
         "hidden": false
     },
     {
-        "id": "8e49479360562103",
+        "id": "7c125f5ff4831fc9",
         "type": "tab",
         "label": "Flow 3",
         "disabled": false,
@@ -760,10 +2812,10 @@
         "env": []
     },
     {
-        "id": "47f632e434744e05",
+        "id": "24025c0b8a940909",
         "type": "ui_time_scheduler",
-        "z": "8e49479360562103",
-        "group": "ed0d0e868a7fe9a6",
+        "z": "7c125f5ff4831fc9",
+        "group": "8ed9768f2af8c1fd",
         "name": "",
         "startDay": 0,
         "refresh": 60,
@@ -787,16 +2839,16 @@
         "y": 140,
         "wires": [
             [
-                "1bf5feb53218e7b4",
-                "6e0fe87d497ae250"
+                "8d2e2235b80ee013",
+                "72813bd52b7a755c"
             ],
             []
         ]
     },
     {
-        "id": "09ecf28619d742dd",
+        "id": "f8c221f4eb841d02",
         "type": "mqtt out",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "topic": "tacmesh/test",
         "qos": "2",
@@ -806,20 +2858,20 @@
         "userProps": "",
         "correl": "",
         "expiry": "",
-        "broker": "604c67f2bcccad4c",
+        "broker": "4d298a557d0f7d05",
         "x": 670,
         "y": 300,
         "wires": []
     },
     {
-        "id": "0282f528d1d5d012",
+        "id": "576d62f4f5f8c0f7",
         "type": "mqtt in",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "topic": "tacmesh/test",
         "qos": "2",
         "datatype": "auto",
-        "broker": "604c67f2bcccad4c",
+        "broker": "4d298a557d0f7d05",
         "nl": false,
         "rap": true,
         "rh": 0,
@@ -828,14 +2880,14 @@
         "y": 440,
         "wires": [
             [
-                "7bc1c04283c99a2d"
+                "702d978d0a07e797"
             ]
         ]
     },
     {
-        "id": "7bc1c04283c99a2d",
+        "id": "702d978d0a07e797",
         "type": "debug",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -849,9 +2901,9 @@
         "wires": []
     },
     {
-        "id": "43047d22d9c36cab",
+        "id": "04a14408ee9b0bec",
         "type": "debug",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -865,9 +2917,9 @@
         "wires": []
     },
     {
-        "id": "1bf5feb53218e7b4",
+        "id": "8d2e2235b80ee013",
         "type": "function",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "func": "msg.payload = JSON.parse(msg.payload);\nvar timers = msg.payload.timers;\nvar len = timers.length;\nvar startArray = [];\nvar stopArray = [];\n\nfor (let i = 0; i < len; i++){\n    \n    startArray[i] = timers[i].starttime/1000;\n    stopArray[i] = timers[i].endtime/1000;\n}\nflow.set(\"startArrays\",startArray)\nflow.set(\"stopArrays\",stopArray)\nflow.set(\"arraySize\", len)\nreturn msg;",
         "outputs": 1,
@@ -879,15 +2931,15 @@
         "y": 160,
         "wires": [
             [
-                "e7ff0294b8175fca",
-                "7844ef92afb11c9e"
+                "4939acb359e6e2dd",
+                "60c365d4793c8046"
             ]
         ]
     },
     {
-        "id": "8e5e1710568ce897",
+        "id": "ced1f437bfc0aca4",
         "type": "mqtt out",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "topic": "tacmesh/mode",
         "qos": "2",
@@ -897,20 +2949,20 @@
         "userProps": "",
         "correl": "",
         "expiry": "",
-        "broker": "604c67f2bcccad4c",
+        "broker": "4d298a557d0f7d05",
         "x": 680,
         "y": 340,
         "wires": []
     },
     {
-        "id": "7a535b6cc88770fb",
+        "id": "c980566cfed4c6d0",
         "type": "ui_dropdown",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "label": "Mode",
         "tooltip": "Select the operation modes",
         "place": "Select option",
-        "group": "ed0d0e868a7fe9a6",
+        "group": "8ed9768f2af8c1fd",
         "order": 1,
         "width": 6,
         "height": 1,
@@ -941,35 +2993,35 @@
         "y": 400,
         "wires": [
             [
-                "086070241490fc10"
+                "5fcaa83006242101"
             ]
         ]
     },
     {
-        "id": "1cb70ad824678e00",
+        "id": "afbc1fc30bc3292f",
         "type": "mqtt in",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "topic": "tacmesh/nodes",
         "qos": "2",
         "datatype": "auto",
-        "broker": "604c67f2bcccad4c",
+        "broker": "4d298a557d0f7d05",
         "nl": false,
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 80,
+        "x": 120,
         "y": 200,
         "wires": [
             [
-                "2eef5561c7899db8"
+                "794249b1b8f59c1b"
             ]
         ]
     },
     {
-        "id": "7c3479381bec5279",
+        "id": "98f72fd3a319ecbe",
         "type": "function",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "func": "msg.getStatus = \"\"\nif (msg.payload.payload == \"query\"){\n    msg.getStatus = \"any\";\n}\nreturn msg;",
         "outputs": 1,
@@ -981,15 +3033,15 @@
         "y": 200,
         "wires": [
             [
-                "7844ef92afb11c9e",
-                "43047d22d9c36cab"
+                "60c365d4793c8046",
+                "04a14408ee9b0bec"
             ]
         ]
     },
     {
-        "id": "2eef5561c7899db8",
+        "id": "794249b1b8f59c1b",
         "type": "json",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "property": "payload",
         "action": "",
@@ -998,14 +3050,14 @@
         "y": 200,
         "wires": [
             [
-                "7c3479381bec5279"
+                "98f72fd3a319ecbe"
             ]
         ]
     },
     {
-        "id": "7844ef92afb11c9e",
+        "id": "60c365d4793c8046",
         "type": "function",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "func": "var date = new Date();\nmypayload = {\n    \"payload\" : {\n        \"starttime\" : flow.get(\"startArrays\"),\n        \"stoptime\": flow.get(\"stopArrays\"),\n        \"arraysize\": flow.get(\"arraySize\"),\n        \"timestamp\" : Math.floor(date.getTime() / 1000),\n        \"sleepinterval\" : flow.get(\"sleepinterval\")\n    }\n}\nmymode = {\n    \"payload\": flow.get(\"mode\")\n}\nreturn [mypayload,mymode];",
         "outputs": 2,
@@ -1017,18 +3069,18 @@
         "y": 300,
         "wires": [
             [
-                "09ecf28619d742dd",
-                "dbcb8cfab10ed84b"
+                "f8c221f4eb841d02",
+                "5c2b30b9e8417529"
             ],
             [
-                "8e5e1710568ce897"
+                "ced1f437bfc0aca4"
             ]
         ]
     },
     {
-        "id": "132acffe35ed4306",
+        "id": "c99346ae4f2162a3",
         "type": "inject",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "props": [
             {
@@ -1050,14 +3102,14 @@
         "y": 300,
         "wires": [
             [
-                "7844ef92afb11c9e"
+                "60c365d4793c8046"
             ]
         ]
     },
     {
-        "id": "e7ff0294b8175fca",
+        "id": "4939acb359e6e2dd",
         "type": "debug",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "active": false,
         "tosidebar": true,
@@ -1071,9 +3123,9 @@
         "wires": []
     },
     {
-        "id": "6e0fe87d497ae250",
+        "id": "72813bd52b7a755c",
         "type": "debug",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -1088,9 +3140,9 @@
         "wires": []
     },
     {
-        "id": "086070241490fc10",
+        "id": "5fcaa83006242101",
         "type": "function",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "func": "msg.payload = JSON.parse(msg.payload);\nflow.set(\"mode\",msg.payload)\nreturn msg;",
         "outputs": 1,
@@ -1102,15 +3154,15 @@
         "y": 400,
         "wires": [
             [
-                "15a0037c758c9dee",
-                "7844ef92afb11c9e"
+                "7d3a0ece27fc26b8",
+                "60c365d4793c8046"
             ]
         ]
     },
     {
-        "id": "15a0037c758c9dee",
+        "id": "7d3a0ece27fc26b8",
         "type": "debug",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -1124,9 +3176,9 @@
         "wires": []
     },
     {
-        "id": "93010eba90c23db8",
+        "id": "6e813cdc1fb3f41d",
         "type": "function",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "func": "var date = new Date();\nmsg.payload = Math.floor(date.getTime() / 1000)\nreturn msg;",
         "outputs": 1,
@@ -1138,14 +3190,14 @@
         "y": 500,
         "wires": [
             [
-                "dbcb8cfab10ed84b"
+                "5c2b30b9e8417529"
             ]
         ]
     },
     {
-        "id": "dbcb8cfab10ed84b",
+        "id": "5c2b30b9e8417529",
         "type": "debug",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -1159,9 +3211,9 @@
         "wires": []
     },
     {
-        "id": "b487b569767c978d",
+        "id": "9a1ddad7a473b0c5",
         "type": "inject",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "props": [
             {
@@ -1183,14 +3235,14 @@
         "y": 500,
         "wires": [
             [
-                "93010eba90c23db8"
+                "6e813cdc1fb3f41d"
             ]
         ]
     },
     {
-        "id": "85965edc.72971",
+        "id": "d4781606b0aaf61b",
         "type": "ui_template",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "group": "",
         "name": "Dashboard Theme : Modern Dark",
         "order": 2,
@@ -1202,8 +3254,8 @@
         "resendOnRefresh": false,
         "templateScope": "global",
         "className": "",
-        "x": 980,
-        "y": 560,
+        "x": 160,
+        "y": 600,
         "wires": [
             []
         ],
@@ -1211,9 +3263,9 @@
         "info": "# Modern Dark Theme for node-red-dashboard\n\nInspired by Victor Lucachi with his [Node Red Dashboard Concept](https://dribbble.com/shots/10356530-Node-Red-Dashboard-Concept) on Dribbble. Thank you for your work.\n\n## Customize\n\n1. Go on dashboard customisation tab (At the right of Debug Console).\n2. Select the style `Dark`.\n3. Pick the color you want. Example `#66B5F8`\n\n## Buttons\n\nUse `2x2` size for buttons with icon and text on the screenshot"
     },
     {
-        "id": "f3632bf4934b7900",
+        "id": "28d8b9e9bd677ebb",
         "type": "ui_template",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "group": "8007d2a3a1631677",
         "name": "",
         "order": 8,
@@ -1225,16 +3277,16 @@
         "resendOnRefresh": true,
         "templateScope": "global",
         "className": "",
-        "x": 900,
-        "y": 520,
+        "x": 80,
+        "y": 560,
         "wires": [
             []
         ]
     },
     {
-        "id": "63f33be5fe23ecef",
+        "id": "0b4a10a326283278",
         "type": "inject",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "props": [
             {
@@ -1246,56 +3298,43 @@
         "once": true,
         "onceDelay": "1",
         "topic": "",
-        "payload": "{\"timers\":[{\"starttime\":1666929600000,\"days\":[1,1,1,1,1,1,1],\"output\":\"0\",\"endtime\":1666930200000}],\"settings\":{}}",
+        "payload": "{\"timers\":[{\"starttime\":1666929600000,\"days\":[1,1,1,1,1,1,1],\"output\":\"0\",\"endtime\":1666933200000}],\"settings\":{}}",
         "payloadType": "str",
         "x": 110,
         "y": 140,
         "wires": [
             [
-                "47f632e434744e05",
-                "1bf5feb53218e7b4"
+                "24025c0b8a940909",
+                "8d2e2235b80ee013"
             ]
         ]
     },
     {
-        "id": "ddab5ced94aee317",
-        "type": "subflow:a16d4838796583b7",
-        "z": "8e49479360562103",
+        "id": "7674371f1420dc62",
+        "type": "subflow:5f1ba7d06cd6b121",
+        "z": "7c125f5ff4831fc9",
         "name": "Node 1",
         "x": 890,
         "y": 40,
         "wires": [
             [],
             [
-                "dbc5763a3fa1f49f"
+                "7a787720068bc90e"
             ],
             [
-                "a539d3495af56054"
+                "5477936a9fb5c209"
             ]
         ]
     },
     {
-        "id": "2dfc964e756f622a",
-        "type": "subflow:a8b176eac9d30a9f",
-        "z": "8e49479360562103",
-        "name": "",
-        "x": 900,
-        "y": 100,
-        "wires": [
-            [],
-            [],
-            []
-        ]
-    },
-    {
-        "id": "34584bebaf1cf525",
+        "id": "f3ec1d13296bea62",
         "type": "mqtt in",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "tacmesh/battery",
         "topic": "tacmesh/battery",
         "qos": "2",
         "datatype": "auto",
-        "broker": "272108da28784153",
+        "broker": "4d298a557d0f7d05",
         "nl": false,
         "rap": true,
         "rh": 0,
@@ -1304,14 +3343,14 @@
         "y": 40,
         "wires": [
             [
-                "ddab5ced94aee317"
+                "7674371f1420dc62"
             ]
         ]
     },
     {
-        "id": "dbc5763a3fa1f49f",
+        "id": "7a787720068bc90e",
         "type": "debug",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "active": false,
         "tosidebar": true,
@@ -1320,14 +3359,14 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 950,
-        "y": 160,
+        "x": 1110,
+        "y": 40,
         "wires": []
     },
     {
-        "id": "a539d3495af56054",
+        "id": "5477936a9fb5c209",
         "type": "debug",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -1336,19 +3375,19 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 950,
-        "y": 200,
+        "x": 1110,
+        "y": 80,
         "wires": []
     },
     {
-        "id": "da1590614a61766b",
+        "id": "96c7aa65f5b6f4b1",
         "type": "ui_dropdown",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "label": "Sleep Interval",
         "tooltip": "Select Interval",
         "place": "Select option",
-        "group": "ed0d0e868a7fe9a6",
+        "group": "8ed9768f2af8c1fd",
         "order": 2,
         "width": 6,
         "height": 1,
@@ -1399,14 +3438,14 @@
         "y": 80,
         "wires": [
             [
-                "7ae561f27040d003"
+                "8d5e721220d2c5a1"
             ]
         ]
     },
     {
-        "id": "7ae561f27040d003",
+        "id": "8d5e721220d2c5a1",
         "type": "function",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "func": "flow.set(\"sleepinterval\",msg.payload)\nreturn msg;",
         "outputs": 1,
@@ -1418,15 +3457,15 @@
         "y": 80,
         "wires": [
             [
-                "4d85e345eb3f5812",
-                "7844ef92afb11c9e"
+                "4051d8da5a577133",
+                "60c365d4793c8046"
             ]
         ]
     },
     {
-        "id": "4d85e345eb3f5812",
+        "id": "4051d8da5a577133",
         "type": "debug",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -1441,9 +3480,9 @@
         "wires": []
     },
     {
-        "id": "42616658caf23635",
+        "id": "56a4abe1633f4154",
         "type": "inject",
-        "z": "8e49479360562103",
+        "z": "7c125f5ff4831fc9",
         "name": "",
         "props": [
             {
@@ -1457,19 +3496,100 @@
         "topic": "",
         "payload": "1",
         "payloadType": "str",
-        "x": 90,
+        "x": 110,
         "y": 40,
         "wires": [
             [
-                "7ae561f27040d003"
+                "8d5e721220d2c5a1"
             ]
         ]
     },
     {
-        "id": "ed0d0e868a7fe9a6",
+        "id": "ba0eba10c354f9a6",
+        "type": "subflow:24dc22ca0c92ec0a",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 3",
+        "x": 890,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "46bac27aa460bd2b",
+        "type": "subflow:5e304daf39eec074",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 4",
+        "x": 890,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "84067e45826d5e27",
+        "type": "subflow:d4d66e4cfdfd3b8c",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 2",
+        "x": 900,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "2f378337c43f0dba",
+        "type": "subflow:cf3b2373529d6dcb",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 5",
+        "x": 890,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "9990ca325ff71085",
+        "type": "subflow:1daf2959585bda76",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 6",
+        "x": 890,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "de485c9395977ab9",
+        "type": "subflow:e8533a8d7456ba12",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 7",
+        "x": 890,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "f26ae53f478d4dca",
+        "type": "subflow:de572c5bbb22ac12",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 8",
+        "x": 890,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "d7be9de6a9207e55",
+        "type": "subflow:9f10e235415e4162",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 10",
+        "x": 900,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "0c81d53ce1f8dccb",
+        "type": "subflow:92ecd57e6257a18f",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 9",
+        "x": 890,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "8ed9768f2af8c1fd",
         "type": "ui_group",
         "name": "Default",
-        "tab": "0be10d0c87f97be6",
+        "tab": "7dfc3c702e35fbbc",
         "order": 1,
         "disp": true,
         "width": "6",
@@ -1477,7 +3597,7 @@
         "className": ""
     },
     {
-        "id": "604c67f2bcccad4c",
+        "id": "4d298a557d0f7d05",
         "type": "mqtt-broker",
         "name": "",
         "broker": "broker.hivemq.com",
@@ -1512,32 +3632,6 @@
         "width": 6,
         "collapse": false,
         "className": ""
-    },
-    {
-        "id": "272108da28784153",
-        "type": "mqtt-broker",
-        "name": "MQTT Broker",
-        "broker": "broker.hivemq.com",
-        "port": "1883",
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": "4",
-        "keepalive": "60",
-        "cleansession": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willPayload": "",
-        "willMsg": {},
-        "sessionExpiry": ""
     },
     {
         "id": "65dee57ed9168e61",
