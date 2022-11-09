@@ -9,8 +9,8 @@ String message;
 unsigned long starttime;
 unsigned long stoptime;
 unsigned long updatetime;
-unsigned long default_starttime = 1667016900;
-unsigned long default_stoptime = 1667017200;
+unsigned long default_starttime = 1667016000;
+unsigned long default_stoptime = 1667016300;
 byte operationmode; // 1 for operation mode, 2 for standby mode, 3 for scheduled mode
 int sleepinterval;
 boolean callbackflag = false;
