@@ -1,11 +1,11 @@
 //File:        TacMesh_Node6_V2.0.ino
-//Description: Program for handling asterisk call termination from remote site. After each bridging and call 
+//Description: Program for handling asterisk call termination from remote site. After each bridging and call
 //             dispatching, operator can request to terminate current connected asterisk call remotely.
-//             Remote communication request are done via RestAPI. 
+//             Remote communication request are done via RestAPI.
 //             ----------------------------------------------------------------------------------------------
 //Notes      : Major, Minor and Revision notes:
 //             ----------------------------------------------------------------------------------------------
-//             Major    - Software major number will counting up each time there is a major changes on the 
+//             Major    - Software major number will counting up each time there is a major changes on the
 //                        software features. Minor number will reset to '0' and revision number will reset
 //                        to '1' (on each major changes). Initially major number will be set to '1'
 //             Minor    - Software minor number will counting up each time there is a minor changes on the
@@ -17,7 +17,7 @@
 //             ----------------------------------------------------------------------------------------------
 //              0001 - (9.nov.22) - added condition to monitor the changes on default start time / stop time
 //                                  on eeprom address.
-//              0002 - (9.nov.22) - added condition to update RTC 1307 date & time when controller receives 
+//              0002 - (9.nov.22) - added condition to update RTC 1307 date & time when controller receives
 //                                  time update from server
 //             ----------------------------------------------------------------------------------------------
 //
@@ -40,22 +40,16 @@ RTC_DS1307 rtc;
 
 //************************************** Change the settings on the configuration file, do not change here *******************************//
 const char* batterytopic = batteryTopic;  // battery topic number based on the node number
-
 const char* mqtt_server = mqttServer;  // the address for MQTT Server
 int mqtt_port = mqttPort;              // port for MQTT Server
-
 int relaypin = relayPin;              // new board uses pin D5 (gpio14), old board uses D4 (gpio2)
 int offset = offSet;                  // set the correction offset value for voltage reading
 int minvolt = minVolt;                // MinVoltage x 100
 int maxvolt = maxVolt;                // MaxVoltage x 100
 int updateinterval = updateInterval;  // Interval to update battery percentage to MQTT server
-
 bool relayon = relayOn;    // Set LOW if relay is active low, Set HIGH if relay is active HIGH
 bool relayoff = relayOff;  // Opposite of relayon
-
-//String nodetype = nodeType;  // if this is not for the last tacmesh node, replace with "relaynode"
-
-//**************************************************************************************************************************************//
+//****************************************************************************************************************************************//
 
 boolean connecttoap = false;  // status flag for turning on radio
 unsigned long timediff;       // time difference flag for sleep function
@@ -78,6 +72,7 @@ void setup() {
   rtc.begin();  // start communicate with rtc
   // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 
+  //wait for rtc to start
   if (!rtc.begin()) {
     Serial.println("Couldn't find RTC");
     Serial.println("Retrying to reach rtc");
@@ -90,7 +85,7 @@ void setup() {
       }
     }
   }
-
+  // if this is the first time rtc is on, configure by adjusting the date time
   if (!rtc.isrunning()) {
     Serial.println("RTC is NOT running!");
     // following line sets the RTC to the date & time this sketch was compiled
@@ -99,7 +94,7 @@ void setup() {
     // rtc.adjust(DateTime(2022, 9, 25, 17, 16, 0)); // year,month,day,hour,minute,second
   }
 
-  EEPROM.begin(512);
+  EEPROM.begin(512); // start EEPROM
 
   //Register Default Starttime on default starttime address, if the value maintains the same, it would not be updated
   unsigned long tempVal;
@@ -122,23 +117,20 @@ void setup() {
   Serial.println("WAKE ADDRESS IS= " + String(EEPROM[wakestatus_address]));
   if (EEPROM[wakestatus_address] == 1) {
     Serial.println("This is a wake from sleep");
-    EEPROM.write(wakestatus_address, false);
+    EEPROM.write(wakestatus_address, false); //set wakestats_address to false
     EEPROM.commit();
 
     // check for operation mode
-    EEPROM.get(operationmode_address, operationmode);
-    if (operationmode == 2) {
+    EEPROM.get(operationmode_address, operationmode); // get the last operation mode stored in operationmode_address
+    if (operationmode == 2) { // operationmode == 2 is in standby mode 
       Serial.println("Last mode was in standby");
-      connecttoap = true;
+      connecttoap = true; 
       Serial.println("Connec to AP = True");
     } else {
-      // call function to compare the time now to the scheduled time
+      // call function to compare the time now to the scheduled time, value will return true or false
       boolean onradio = compareTime(arraysize_address, starttime_address, stoptime_address, timediff);
-      
       if (onradio) {
         connecttoap = true;
-        pinMode(relaypin, OUTPUT);
-        digitalWrite(relaypin, relayon);
         Serial.println("Time to turn on Radio");
       } else {
         connecttoap = false;
@@ -149,8 +141,7 @@ void setup() {
         EEPROM.commit();
         delay(200);
         Serial.println("WAKE ADDRESS IS= " + String(EEPROM[wakestatus_address]));
-        espSleep();
-        //Serial.println(compareTime(arraysize_address, starttime_address, stoptime_address, timediff));
+        espSleep(); // to deep sleep microcontroller 
       }
     }
   } else {
@@ -160,14 +151,13 @@ void setup() {
 
   if (connecttoap) {
     pinMode(relaypin, OUTPUT);
-    digitalWrite(relaypin, relayon);
-    delay(1000);
-    setup_wifi();
-    client.setServer(mqtt_server, mqtt_port);
-    client.setCallback(callback);
+    digitalWrite(relaypin, relayon); // turn on radio
+    setup_wifi(); // start connect to ssid sequence
+    client.setServer(mqtt_server, mqtt_port); // start connect to mqtt server and port
+    client.setCallback(callback); // start mqtt callback function
     delay(1000);
   }
-  lastmillis = millis();
+  lastmillis = millis(); // start counter flag
 }
 
 void loop() {
@@ -181,23 +171,25 @@ void loop() {
     else if (client.connected()) {
       client.loop();
       if (updateonce == 0) {
+        // construct json format for sending voltage and node name
         batteryvolt = "{\"Voltage\":";
         batteryvolt += String(measureVolt());
         batteryvolt += ",\"nodeName\":";
         batteryvolt += "\"" + String(HostName) + "\"";
         batteryvolt += "}";
-        emitMQTT(batterytopic, batteryvolt);
+        emitMQTT(batterytopic, batteryvolt); // send mqtt message to battery topic with payload voltage and node name
         String payloads = "{\"payload\"";
         payloads += ":\"query\"}";
-        emitMQTT("tacmesh/nodes", payloads);
+        emitMQTT("tacmesh/nodes", payloads); // query latest update from server
         delay(300);
         updateonce++;
       }
       if (updateonce == 1) {
+        // callbackflag is triggered at mqtt_setup.h after receiving query updates from server
         if (callbackflag) {
           Serial.println("Updating RTC Time");
-          updateTime(update_year, update_month, update_day, update_hour, update_minutes, update_seconds);
-          rtc.adjust(DateTime(update_year, update_month, update_day, update_hour, update_minutes, update_seconds));
+          updateTime(update_year, update_month, update_day, update_hour, update_minutes, update_seconds); // calculate latest unix timestamp receive from server to year,month,day,hour,minutes,seconds
+          rtc.adjust(DateTime(update_year, update_month, update_day, update_hour, update_minutes, update_seconds)); // update the time on rtc with the calculated time received from server
           Serial.println("Call back flag is : " + String(callbackflag));
           updateonce++;
           delay(150);
@@ -222,10 +214,10 @@ void loop() {
       Serial.println("Mode : Scheduled");
       //      Serial.println(millis() - lastmillis);
       boolean onradio = compareTime(arraysize_address, starttime_address, stoptime_address, timediff);
+      emitMQTT(batterytopic, batteryvolt);
       if (onradio) {
         Serial.println("Still on Time");
       } else {
-        emitMQTT(batterytopic, batteryvolt);
         EEPROM.write(wakestatus_address, true);
         EEPROM.commit();
         delay(200);
