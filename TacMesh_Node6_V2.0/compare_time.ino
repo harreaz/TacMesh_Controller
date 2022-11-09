@@ -11,15 +11,20 @@ void readingTimestamp(byte &arraysize, byte &starttime_address, byte &stoptime_a
   eepromGet(stoptime_address, arraysize, datasize, b);
 }
 
-void updateTime() {
+void updateTime(int &update_year,
+                int &update_month,
+                int &update_day,
+                int &update_hour,
+                int &update_minutes,
+                int &update_seconds) {
   DateTime updateRTC = updatetime + 28800;
-  int year = updateRTC.year();
-  int month = updateRTC.month();
-  int day = updateRTC.day();
-  int hour = updateRTC.hour();                                  // get hour from rtc
-  int minutes = updateRTC.minute();                             // get minutes from rtc
-  int seconds = updateRTC.second();                             // get seconds from rtc
-  Serial.println(String(year) + "/" + String(month) + "/" + String(day) + "  " + String(updateRTC.hour()) + ":" + String(updateRTC.minute()) + ":" + String(updateRTC.second()));
+  update_year = updateRTC.year();
+  update_month = updateRTC.month();
+  update_day = updateRTC.day();
+  update_hour = updateRTC.hour();       // get hour from rtc
+  update_minutes = updateRTC.minute();  // get minutes from rtc
+  update_seconds = updateRTC.second();  // get seconds from rtc
+  Serial.println(String(update_year) + "/" + String(update_month) + "/" + String(update_day) + "  " + String(updateRTC.hour()) + ":" + String(updateRTC.minute()) + ":" + String(updateRTC.second()));
   Serial.println(updatetime);
 }
 
@@ -49,11 +54,11 @@ bool compareTime(byte &arraysize_address, byte &starttime_address, byte &stoptim
 
   // get the value of starttime stored in EEPROM based on arraysize, and store to starttimearray
   readingTimestamp(arraysize, default_starttime_address, default_stoptime_address);
-  int n = 0; // define n as counter
+  int n = 0;  // define n as counter
   while (true) {
     // attach a variable to the starttime array starting from the first array
-    unsigned long starttime = starttimearray[n] + 28800; // +28800 is a constant for +8 utc
-    unsigned long stoptime = stoptimearray[n] + 28800; // +28800 is a constant for +8 utc
+    unsigned long starttime = starttimearray[n] + 28800;  // +28800 is a constant for +8 utc
+    unsigned long stoptime = stoptimearray[n] + 28800;    // +28800 is a constant for +8 utc
 
     DateTime turnontime = starttime;
     hour = turnontime.hour();                                      // get hour from rtc
@@ -103,8 +108,7 @@ bool compareTime(byte &arraysize_address, byte &starttime_address, byte &stoptim
       // int arraysize = (sizeof(starttimearray) / sizeof(unsigned long)) - 1; // total byte of values stored in the array will be divided by the type of the value in the array, in this case its 4 bytes (for unsgined long), -1 because array would start with index [0].
       if (n < arraysize) {
         n++;
-      }
-      else if (n >= arraysize) {
+      } else if (n >= arraysize) {
         timediff = 999999;
         n = 0;
         scheduleontime = false;
