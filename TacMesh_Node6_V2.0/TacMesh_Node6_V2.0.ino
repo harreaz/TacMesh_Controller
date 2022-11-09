@@ -1,4 +1,4 @@
-//File:        human.py
+//File:        TacMesh_Node6_V2.0.ino
 //Description: Program for handling asterisk call termination from remote site. After each bridging and call 
 //             dispatching, operator can request to terminate current connected asterisk call remotely.
 //             Remote communication request are done via RestAPI. 
