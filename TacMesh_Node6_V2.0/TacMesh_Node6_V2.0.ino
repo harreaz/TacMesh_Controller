@@ -1,7 +1,38 @@
+//File:        human.py
+//Description: Program for handling asterisk call termination from remote site. After each bridging and call 
+//             dispatching, operator can request to terminate current connected asterisk call remotely.
+//             Remote communication request are done via RestAPI. 
+//             ----------------------------------------------------------------------------------------------
+//Notes      : Major, Minor and Revision notes:
+//             ----------------------------------------------------------------------------------------------
+//             Major    - Software major number will counting up each time there is a major changes on the 
+//                        software features. Minor number will reset to '0' and revision number will reset
+//                        to '1' (on each major changes). Initially major number will be set to '1'
+//             Minor    - Software minor number will counting up each time there is a minor changes on the
+//                        software. Revision number will reset to '1' (on each minor changes).
+//             Revision - Software revision number will counting up each time there is a bug fixing on the
+//                        on the current major and minor number.
+//             ----------------------------------------------------------------------------------------------
+//             Current Features & Bug Fixing Information
+//             ----------------------------------------------------------------------------------------------
+//              0001 - (9.nov.22) - added condition to monitor the changes on default start time / stop time
+//                                  on eeprom address.
+//              0002 - (9.nov.22) - added condition to update RTC 1307 date & time when controller receives 
+//                                  time update from server
+//             ----------------------------------------------------------------------------------------------
+//
+//Author          : Mohd Danial Hariz Bin Norazam (393)
+//Supervisor      : Ahmad Bahari Nizam B. Abu Bakar.
+//Current Version : Version 2.0.1
+//
+//-------------------------------------------------------------------------------------------------------------
+//                                          History Version
+//-------------------------------------------------------------------------------------------------------------
+//Version - 2.0.1 = (0001,0002)
+
 #include <ArduinoJson.h>
 #include "netconfig.h"
 #include "mqtt_setup.h"
-//#include "eeprom_putget.h"
 #include <TimeLib.h>
 #include "RTClib.h"
 
@@ -11,34 +42,40 @@ RTC_DS1307 rtc;
 const char* batterytopic = batteryTopic;  // battery topic number based on the node number
 
 const char* mqtt_server = mqttServer;  // the address for MQTT Server
-int mqtt_port = mqttPort;                      // port for MQTT Server
+int mqtt_port = mqttPort;              // port for MQTT Server
 
-int relaypin = relayPin;           // new board uses pin D5 (gpio14), old board uses D4 (gpio2)
-int offset = offSet;            // set the correction offset value for voltage reading
-int minvolt = minVolt;            // MinVoltage x 100
-int maxvolt = maxVolt;         // MaxVoltage x 100
+int relaypin = relayPin;              // new board uses pin D5 (gpio14), old board uses D4 (gpio2)
+int offset = offSet;                  // set the correction offset value for voltage reading
+int minvolt = minVolt;                // MinVoltage x 100
+int maxvolt = maxVolt;                // MaxVoltage x 100
 int updateinterval = updateInterval;  // Interval to update battery percentage to MQTT server
 
 bool relayon = relayOn;    // Set LOW if relay is active low, Set HIGH if relay is active HIGH
 bool relayoff = relayOff;  // Opposite of relayon
 
-String nodetype = nodeType;  // if this is not for the last tacmesh node, replace with "relaynode"
+//String nodetype = nodeType;  // if this is not for the last tacmesh node, replace with "relaynode"
 
 //**************************************************************************************************************************************//
 
-boolean connecttoap = false; // status flag for turning on radio
-unsigned long timediff; // time difference flag for sleep function
+boolean connecttoap = false;  // status flag for turning on radio
+unsigned long timediff;       // time difference flag for sleep function
 unsigned long lastmillis;
 int checkinterval = 5000;
 int updateonce = 0;
 int voltavg;
 int count;
+int update_year;
+int update_month;
+int update_day;
+int update_hour;
+int update_minutes;
+int update_seconds;
 String batteryvolt;
 
 void setup() {
   Serial.begin(115200);
   Serial.println(" ");
-  rtc.begin(); // start communicate with rtc
+  rtc.begin();  // start communicate with rtc
   // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 
   if (!rtc.begin()) {
@@ -63,50 +100,60 @@ void setup() {
   }
 
   EEPROM.begin(512);
-  //  EEPROM.write(wakestatus_address, true);
-  if (default_starttime_address != default_starttime) {
+
+  //Register Default Starttime on default starttime address, if the value maintains the same, it would not be updated
+  unsigned long tempVal;
+  EEPROM.get(default_starttime_address, tempVal);
+  if (tempVal != default_starttime) {
+    Serial.println("Updated Default Start Time");
     EEPROM.put(default_starttime_address, default_starttime);
     EEPROM.commit();
   }
-  if (default_stoptime_address != default_stoptime) {
+  delay(100);
+  EEPROM.get(default_stoptime_address, tempVal);
+  if (tempVal != default_stoptime) {
+    Serial.println("Updated Default Stop Time");
     EEPROM.put(default_stoptime_address, default_stoptime);
     EEPROM.commit();
   }
-  delay(200);
+  delay(100);
+
+  // check if this is a wake from sleep, or wake by reset
   Serial.println("WAKE ADDRESS IS= " + String(EEPROM[wakestatus_address]));
   if (EEPROM[wakestatus_address] == 1) {
     Serial.println("This is a wake from sleep");
     EEPROM.write(wakestatus_address, false);
     EEPROM.commit();
 
+    // check for operation mode
     EEPROM.get(operationmode_address, operationmode);
     if (operationmode == 2) {
       Serial.println("Last mode was in standby");
       connecttoap = true;
       Serial.println("Connec to AP = True");
-    }
-    else {
+    } else {
+      // call function to compare the time now to the scheduled time
       boolean onradio = compareTime(arraysize_address, starttime_address, stoptime_address, timediff);
-
+      
       if (onradio) {
         connecttoap = true;
         pinMode(relaypin, OUTPUT);
         digitalWrite(relaypin, relayon);
         Serial.println("Time to turn on Radio");
-      }
-      else {
+      } else {
         connecttoap = false;
         Serial.println("Its not time to connect to radio");
         delay(1000);
         Serial.println(timediff);
         EEPROM.write(wakestatus_address, true);
         EEPROM.commit();
+        delay(200);
+        Serial.println("WAKE ADDRESS IS= " + String(EEPROM[wakestatus_address]));
         espSleep();
         //Serial.println(compareTime(arraysize_address, starttime_address, stoptime_address, timediff));
       }
     }
-  }
-  else {
+  } else {
     connecttoap = true;
     Serial.println("Connect to AP is True");
   }
@@ -146,15 +193,15 @@ void loop() {
         delay(300);
         updateonce++;
       }
-      if (updateonce == 1)
-      {
+      if (updateonce == 1) {
         if (callbackflag) {
-          updateTime();
+          Serial.println("Updating RTC Time");
+          updateTime(update_year, update_month, update_day, update_hour, update_minutes, update_seconds);
+          rtc.adjust(DateTime(update_year, update_month, update_day, update_hour, update_minutes, update_seconds));
           Serial.println("Call back flag is : " + String(callbackflag));
           updateonce++;
           delay(150);
-        }
-        else {
+        } else {
           Serial.println("Call back flag is : " + String(callbackflag));
           delay(1000);
         }
@@ -177,22 +224,22 @@ void loop() {
       boolean onradio = compareTime(arraysize_address, starttime_address, stoptime_address, timediff);
       if (onradio) {
         Serial.println("Still on Time");
-      }
-      else {
+      } else {
         emitMQTT(batterytopic, batteryvolt);
-        delay(200);
         EEPROM.write(wakestatus_address, true);
         EEPROM.commit();
+        delay(200);
+        Serial.println("WAKE ADDRESS IS= " + String(EEPROM[wakestatus_address]));
         espSleep();
       }
-    }
-    else if (operationmode == 2) {
+    } else if (operationmode == 2) {
       sleepinterval = sleepinterval * 60 * 1e6;
       Serial.println("Mode in Standby");
       Serial.println("Controller will go to sleep for " + String(sleepinterval) + "seconds");
       EEPROM.write(wakestatus_address, true);
       EEPROM.commit();
       delay(200);
+      Serial.println("WAKE ADDRESS IS= " + String(EEPROM[wakestatus_address]));
       ESP.deepSleep(sleepinterval);
     }
     // if mode is in operation
@@ -233,10 +280,9 @@ void espSleep() {
     timediff = 4290 * 1e6;
     ESP.deepSleep(timediff);
     delay(200);
-  }
-  else if (timediff < 4290) {
+  } else if (timediff < 4290) {
     delay(200);
-    Serial.println("Going into Sleep for : " + String(timediff) + " seconds" );
+    Serial.println("Going into Sleep for : " + String(timediff) + " seconds");
     timediff = timediff * 1e6;
     ESP.deepSleep(timediff);
     //ESP.deepSleep(3900e6);
