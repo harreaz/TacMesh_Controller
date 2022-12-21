@@ -1,0 +1,4986 @@
+[
+    {
+        "id": "92ecd57e6257a18f",
+        "type": "subflow",
+        "name": "Subflow 9",
+        "info": "",
+        "in": [
+            {
+                "x": 260,
+                "y": 220,
+                "wires": [
+                    {
+                        "id": "5bd7c3b49b64f085"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 720,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "9ee3c662c27cc496",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "ab1f83c3c47f6415",
+        "type": "function",
+        "z": "92ecd57e6257a18f",
+        "name": "Voltage",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 180,
+        "wires": [
+            [
+                "77ad195348eb54af"
+            ]
+        ]
+    },
+    {
+        "id": "28767640113c6ffb",
+        "type": "function",
+        "z": "92ecd57e6257a18f",
+        "name": "Last Update",
+        "func": "var count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 260,
+        "wires": [
+            [
+                "3277090818c841ff"
+            ]
+        ]
+    },
+    {
+        "id": "4776e95e7b9036e5",
+        "type": "inject",
+        "z": "92ecd57e6257a18f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 240,
+        "y": 280,
+        "wires": [
+            [
+                "28767640113c6ffb",
+                "5662c78f739f0d39"
+            ]
+        ]
+    },
+    {
+        "id": "3277090818c841ff",
+        "type": "ui_text",
+        "z": "92ecd57e6257a18f",
+        "group": "47835efed891c188",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 830,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "5662c78f739f0d39",
+        "type": "function",
+        "z": "92ecd57e6257a18f",
+        "name": "LED Status",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == flow.get(\"nodeName\")){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 300,
+        "wires": [
+            [
+                "74c21595f885d354"
+            ]
+        ]
+    },
+    {
+        "id": "5bd7c3b49b64f085",
+        "type": "json",
+        "z": "92ecd57e6257a18f",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "ab1f83c3c47f6415",
+                "28767640113c6ffb",
+                "5662c78f739f0d39",
+                "9ee3c662c27cc496"
+            ]
+        ]
+    },
+    {
+        "id": "77ad195348eb54af",
+        "type": "range",
+        "z": "92ecd57e6257a18f",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 560,
+        "y": 220,
+        "wires": [
+            [
+                "c8eac809270fe940"
+            ]
+        ]
+    },
+    {
+        "id": "74c21595f885d354",
+        "type": "ui_led",
+        "z": "92ecd57e6257a18f",
+        "order": 1,
+        "group": "47835efed891c188",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 810,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "c8eac809270fe940",
+        "type": "ui_artlessgauge",
+        "z": "92ecd57e6257a18f",
+        "group": "47835efed891c188",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 820,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "cfc621c54381c63a",
+        "type": "inject",
+        "z": "92ecd57e6257a18f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.2",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 230,
+        "y": 60,
+        "wires": [
+            [
+                "132f741f9e10abb5",
+                "fd2e42eb27db2e30"
+            ]
+        ]
+    },
+    {
+        "id": "9ee3c662c27cc496",
+        "type": "function",
+        "z": "92ecd57e6257a18f",
+        "name": "Voltage to DB",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dea248c6681b3ab4",
+        "type": "debug",
+        "z": "92ecd57e6257a18f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "132f741f9e10abb5",
+        "type": "function",
+        "z": "92ecd57e6257a18f",
+        "name": "Set nodeName",
+        "func": "flow.set(\"nodeName\",\"Node9\")\nmsg.payload = flow.get(\"nodeName\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 60,
+        "wires": [
+            [
+                "dea248c6681b3ab4"
+            ]
+        ]
+    },
+    {
+        "id": "930c08ba5f15411c",
+        "type": "function",
+        "z": "92ecd57e6257a18f",
+        "name": "",
+        "func": "a = flow.get(\"nodeName\")\nmsg.payload = JSON.stringify({\"nodeName\":a , \"Voltage\": 12.6})\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 180,
+        "wires": [
+            [
+                "5bd7c3b49b64f085"
+            ]
+        ]
+    },
+    {
+        "id": "fd2e42eb27db2e30",
+        "type": "delay",
+        "z": "92ecd57e6257a18f",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 220,
+        "y": 120,
+        "wires": [
+            [
+                "930c08ba5f15411c"
+            ]
+        ]
+    },
+    {
+        "id": "47835efed891c188",
+        "type": "ui_group",
+        "name": "Node 9",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 10,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9f10e235415e4162",
+        "type": "subflow",
+        "name": "Subflow 10",
+        "info": "",
+        "in": [
+            {
+                "x": 260,
+                "y": 280,
+                "wires": [
+                    {
+                        "id": "9a9b0a3fe981c526"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 800,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "2d142e10ad8f85ba",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "7569ceef34965bc1",
+        "type": "ui_text",
+        "z": "9f10e235415e4162",
+        "group": "2c8e7e39c820254f",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 850,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "97906ecd4ac98e68",
+        "type": "ui_led",
+        "z": "9f10e235415e4162",
+        "order": 1,
+        "group": "2c8e7e39c820254f",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 830,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "ddc2f4080991d09c",
+        "type": "ui_artlessgauge",
+        "z": "9f10e235415e4162",
+        "group": "2c8e7e39c820254f",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 840,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "49b0ed50dc8e6ca3",
+        "type": "function",
+        "z": "9f10e235415e4162",
+        "name": "Voltage",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 240,
+        "wires": [
+            [
+                "d7d2c4b2963e9671"
+            ]
+        ]
+    },
+    {
+        "id": "90012e8f75e811f6",
+        "type": "function",
+        "z": "9f10e235415e4162",
+        "name": "Last Update",
+        "func": "var count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 320,
+        "wires": [
+            [
+                "7569ceef34965bc1"
+            ]
+        ]
+    },
+    {
+        "id": "f60fc71816cd953c",
+        "type": "inject",
+        "z": "9f10e235415e4162",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 240,
+        "y": 340,
+        "wires": [
+            [
+                "90012e8f75e811f6",
+                "b43c9add9b0e4c9f"
+            ]
+        ]
+    },
+    {
+        "id": "b43c9add9b0e4c9f",
+        "type": "function",
+        "z": "9f10e235415e4162",
+        "name": "LED Status",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == flow.get(\"nodeName\")){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 360,
+        "wires": [
+            [
+                "97906ecd4ac98e68"
+            ]
+        ]
+    },
+    {
+        "id": "9a9b0a3fe981c526",
+        "type": "json",
+        "z": "9f10e235415e4162",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "49b0ed50dc8e6ca3",
+                "90012e8f75e811f6",
+                "b43c9add9b0e4c9f",
+                "2d142e10ad8f85ba"
+            ]
+        ]
+    },
+    {
+        "id": "d7d2c4b2963e9671",
+        "type": "range",
+        "z": "9f10e235415e4162",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 560,
+        "y": 280,
+        "wires": [
+            [
+                "ddc2f4080991d09c"
+            ]
+        ]
+    },
+    {
+        "id": "813c9bff6ae5b0ee",
+        "type": "inject",
+        "z": "9f10e235415e4162",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 230,
+        "y": 120,
+        "wires": [
+            [
+                "250622f23a6086a0",
+                "bbf512017d876378"
+            ]
+        ]
+    },
+    {
+        "id": "2d142e10ad8f85ba",
+        "type": "function",
+        "z": "9f10e235415e4162",
+        "name": "Voltage to DB",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "61e36a15c14e8be2",
+        "type": "debug",
+        "z": "9f10e235415e4162",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "250622f23a6086a0",
+        "type": "function",
+        "z": "9f10e235415e4162",
+        "name": "Set nodeName",
+        "func": "flow.set(\"nodeName\",\"Node10\")\nmsg.payload = flow.get(\"nodeName\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 120,
+        "wires": [
+            [
+                "61e36a15c14e8be2"
+            ]
+        ]
+    },
+    {
+        "id": "9de805062db023af",
+        "type": "function",
+        "z": "9f10e235415e4162",
+        "name": "",
+        "func": "a = flow.get(\"nodeName\")\nmsg.payload = JSON.stringify({\"nodeName\":a , \"Voltage\": 12.6})\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 240,
+        "wires": [
+            [
+                "9a9b0a3fe981c526"
+            ]
+        ]
+    },
+    {
+        "id": "bbf512017d876378",
+        "type": "delay",
+        "z": "9f10e235415e4162",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 220,
+        "y": 180,
+        "wires": [
+            [
+                "9de805062db023af"
+            ]
+        ]
+    },
+    {
+        "id": "2c8e7e39c820254f",
+        "type": "ui_group",
+        "name": "Node 10",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 11,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "de572c5bbb22ac12",
+        "type": "subflow",
+        "name": "Subflow 8",
+        "info": "",
+        "in": [
+            {
+                "x": 260,
+                "y": 220,
+                "wires": [
+                    {
+                        "id": "61d531724a82d5df"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 740,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "1e2aced271ddfd87",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "d34d5315b9f0d3e4",
+        "type": "ui_text",
+        "z": "de572c5bbb22ac12",
+        "group": "d29523623d9184cf",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 790,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "903868e058318284",
+        "type": "ui_led",
+        "z": "de572c5bbb22ac12",
+        "order": 1,
+        "group": "d29523623d9184cf",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 770,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "71a8ff779e3da148",
+        "type": "ui_artlessgauge",
+        "z": "de572c5bbb22ac12",
+        "group": "d29523623d9184cf",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 780,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "f02743d18e7b0b48",
+        "type": "function",
+        "z": "de572c5bbb22ac12",
+        "name": "Voltage",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 180,
+        "wires": [
+            [
+                "91de410727515d99"
+            ]
+        ]
+    },
+    {
+        "id": "e9a9fc459dfd1040",
+        "type": "function",
+        "z": "de572c5bbb22ac12",
+        "name": "Last Update",
+        "func": "var count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 260,
+        "wires": [
+            [
+                "d34d5315b9f0d3e4"
+            ]
+        ]
+    },
+    {
+        "id": "59b69f087b41beaa",
+        "type": "inject",
+        "z": "de572c5bbb22ac12",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 240,
+        "y": 280,
+        "wires": [
+            [
+                "e9a9fc459dfd1040",
+                "e8194d33f6f35ea8"
+            ]
+        ]
+    },
+    {
+        "id": "e8194d33f6f35ea8",
+        "type": "function",
+        "z": "de572c5bbb22ac12",
+        "name": "LED Status",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == flow.get(\"nodeName\")){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 300,
+        "wires": [
+            [
+                "903868e058318284"
+            ]
+        ]
+    },
+    {
+        "id": "61d531724a82d5df",
+        "type": "json",
+        "z": "de572c5bbb22ac12",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "f02743d18e7b0b48",
+                "e9a9fc459dfd1040",
+                "e8194d33f6f35ea8",
+                "1e2aced271ddfd87"
+            ]
+        ]
+    },
+    {
+        "id": "91de410727515d99",
+        "type": "range",
+        "z": "de572c5bbb22ac12",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 560,
+        "y": 220,
+        "wires": [
+            [
+                "71a8ff779e3da148"
+            ]
+        ]
+    },
+    {
+        "id": "93ad63ae6134d582",
+        "type": "inject",
+        "z": "de572c5bbb22ac12",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 230,
+        "y": 60,
+        "wires": [
+            [
+                "9bf9735739826061",
+                "d3366cfbb550c411"
+            ]
+        ]
+    },
+    {
+        "id": "1e2aced271ddfd87",
+        "type": "function",
+        "z": "de572c5bbb22ac12",
+        "name": "Voltage to DB",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ca08be8fbed747ab",
+        "type": "debug",
+        "z": "de572c5bbb22ac12",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "9bf9735739826061",
+        "type": "function",
+        "z": "de572c5bbb22ac12",
+        "name": "Set nodeName",
+        "func": "flow.set(\"nodeName\",\"Node8\")\nmsg.payload = flow.get(\"nodeName\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 60,
+        "wires": [
+            [
+                "ca08be8fbed747ab"
+            ]
+        ]
+    },
+    {
+        "id": "ef71b04904cf893d",
+        "type": "function",
+        "z": "de572c5bbb22ac12",
+        "name": "",
+        "func": "a = flow.get(\"nodeName\")\nmsg.payload = JSON.stringify({\"nodeName\":a , \"Voltage\": 12.6})\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 180,
+        "wires": [
+            [
+                "61d531724a82d5df"
+            ]
+        ]
+    },
+    {
+        "id": "d3366cfbb550c411",
+        "type": "delay",
+        "z": "de572c5bbb22ac12",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 220,
+        "y": 120,
+        "wires": [
+            [
+                "ef71b04904cf893d"
+            ]
+        ]
+    },
+    {
+        "id": "d29523623d9184cf",
+        "type": "ui_group",
+        "name": "Node 8",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 9,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e8533a8d7456ba12",
+        "type": "subflow",
+        "name": "Subflow 7",
+        "info": "",
+        "in": [
+            {
+                "x": 260,
+                "y": 260,
+                "wires": [
+                    {
+                        "id": "28792aa49492ba74"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 760,
+                "y": 180,
+                "wires": [
+                    {
+                        "id": "eb5378c8233d0fc8",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "8a429ce319a18ee0",
+        "type": "ui_text",
+        "z": "e8533a8d7456ba12",
+        "group": "79fc8a977e96455c",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 810,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e2ac7e5f5207458c",
+        "type": "ui_led",
+        "z": "e8533a8d7456ba12",
+        "order": 1,
+        "group": "79fc8a977e96455c",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 790,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "6546c18111ea42fa",
+        "type": "ui_artlessgauge",
+        "z": "e8533a8d7456ba12",
+        "group": "79fc8a977e96455c",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 800,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "4d033a8a1a67fe1c",
+        "type": "function",
+        "z": "e8533a8d7456ba12",
+        "name": "Voltage",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 220,
+        "wires": [
+            [
+                "27210fb472358d44"
+            ]
+        ]
+    },
+    {
+        "id": "7e55e8311f7f2fe6",
+        "type": "function",
+        "z": "e8533a8d7456ba12",
+        "name": "Last Update",
+        "func": "var count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 300,
+        "wires": [
+            [
+                "8a429ce319a18ee0"
+            ]
+        ]
+    },
+    {
+        "id": "3224937b73857019",
+        "type": "inject",
+        "z": "e8533a8d7456ba12",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 240,
+        "y": 320,
+        "wires": [
+            [
+                "7e55e8311f7f2fe6",
+                "e65c8eeddfdcda89"
+            ]
+        ]
+    },
+    {
+        "id": "e65c8eeddfdcda89",
+        "type": "function",
+        "z": "e8533a8d7456ba12",
+        "name": "LED Status",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == flow.get(\"nodeName\")){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 340,
+        "wires": [
+            [
+                "e2ac7e5f5207458c"
+            ]
+        ]
+    },
+    {
+        "id": "28792aa49492ba74",
+        "type": "json",
+        "z": "e8533a8d7456ba12",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 370,
+        "y": 220,
+        "wires": [
+            [
+                "4d033a8a1a67fe1c",
+                "7e55e8311f7f2fe6",
+                "e65c8eeddfdcda89",
+                "eb5378c8233d0fc8"
+            ]
+        ]
+    },
+    {
+        "id": "27210fb472358d44",
+        "type": "range",
+        "z": "e8533a8d7456ba12",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 560,
+        "y": 260,
+        "wires": [
+            [
+                "6546c18111ea42fa"
+            ]
+        ]
+    },
+    {
+        "id": "73251614bc3d73d0",
+        "type": "inject",
+        "z": "e8533a8d7456ba12",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 230,
+        "y": 100,
+        "wires": [
+            [
+                "5432134bf15baf92",
+                "72a2f4b392a8a56f"
+            ]
+        ]
+    },
+    {
+        "id": "eb5378c8233d0fc8",
+        "type": "function",
+        "z": "e8533a8d7456ba12",
+        "name": "Voltage to DB",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 580,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9eb18824d6fab24c",
+        "type": "debug",
+        "z": "e8533a8d7456ba12",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 570,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5432134bf15baf92",
+        "type": "function",
+        "z": "e8533a8d7456ba12",
+        "name": "Set nodeName",
+        "func": "flow.set(\"nodeName\",\"Node7\")\nmsg.payload = flow.get(\"nodeName\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 100,
+        "wires": [
+            [
+                "9eb18824d6fab24c"
+            ]
+        ]
+    },
+    {
+        "id": "b13dc5d4cdf134d2",
+        "type": "function",
+        "z": "e8533a8d7456ba12",
+        "name": "",
+        "func": "a = flow.get(\"nodeName\")\nmsg.payload = JSON.stringify({\"nodeName\":a , \"Voltage\": 12.6})\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 220,
+        "wires": [
+            [
+                "28792aa49492ba74"
+            ]
+        ]
+    },
+    {
+        "id": "72a2f4b392a8a56f",
+        "type": "delay",
+        "z": "e8533a8d7456ba12",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 220,
+        "y": 160,
+        "wires": [
+            [
+                "b13dc5d4cdf134d2"
+            ]
+        ]
+    },
+    {
+        "id": "79fc8a977e96455c",
+        "type": "ui_group",
+        "name": "Node 7",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 8,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "1daf2959585bda76",
+        "type": "subflow",
+        "name": "Subflow 6",
+        "info": "",
+        "in": [
+            {
+                "x": 300,
+                "y": 280,
+                "wires": [
+                    {
+                        "id": "ba6a4917ec4787a5"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 780,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "0e9691366b811ec8",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "e0c4a9f65ec50b32",
+        "type": "ui_text",
+        "z": "1daf2959585bda76",
+        "group": "c3a8697cce6aa337",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 810,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "f4685471ef5acf30",
+        "type": "ui_led",
+        "z": "1daf2959585bda76",
+        "order": 1,
+        "group": "c3a8697cce6aa337",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 790,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "690d51235873bdb2",
+        "type": "ui_artlessgauge",
+        "z": "1daf2959585bda76",
+        "group": "c3a8697cce6aa337",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 800,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "0737276f5b5125f4",
+        "type": "function",
+        "z": "1daf2959585bda76",
+        "name": "Voltage",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 240,
+        "wires": [
+            [
+                "913e728d17c51473"
+            ]
+        ]
+    },
+    {
+        "id": "594da7277e0f9a6e",
+        "type": "function",
+        "z": "1daf2959585bda76",
+        "name": "Last Update",
+        "func": "var count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 320,
+        "wires": [
+            [
+                "e0c4a9f65ec50b32"
+            ]
+        ]
+    },
+    {
+        "id": "a912cdc6fe9d1422",
+        "type": "inject",
+        "z": "1daf2959585bda76",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 280,
+        "y": 340,
+        "wires": [
+            [
+                "594da7277e0f9a6e",
+                "5a345d06356303f0"
+            ]
+        ]
+    },
+    {
+        "id": "5a345d06356303f0",
+        "type": "function",
+        "z": "1daf2959585bda76",
+        "name": "LED Status",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == flow.get(\"nodeName\")){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 360,
+        "wires": [
+            [
+                "f4685471ef5acf30"
+            ]
+        ]
+    },
+    {
+        "id": "ba6a4917ec4787a5",
+        "type": "json",
+        "z": "1daf2959585bda76",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 410,
+        "y": 240,
+        "wires": [
+            [
+                "0737276f5b5125f4",
+                "594da7277e0f9a6e",
+                "5a345d06356303f0",
+                "0e9691366b811ec8"
+            ]
+        ]
+    },
+    {
+        "id": "913e728d17c51473",
+        "type": "range",
+        "z": "1daf2959585bda76",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 600,
+        "y": 280,
+        "wires": [
+            [
+                "690d51235873bdb2"
+            ]
+        ]
+    },
+    {
+        "id": "4be8b3331ad27267",
+        "type": "inject",
+        "z": "1daf2959585bda76",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 270,
+        "y": 120,
+        "wires": [
+            [
+                "6e724f5bd5652e36",
+                "29f065a92b9dca4f"
+            ]
+        ]
+    },
+    {
+        "id": "0e9691366b811ec8",
+        "type": "function",
+        "z": "1daf2959585bda76",
+        "name": "Voltage to DB",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b34d61166baa5932",
+        "type": "debug",
+        "z": "1daf2959585bda76",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "6e724f5bd5652e36",
+        "type": "function",
+        "z": "1daf2959585bda76",
+        "name": "Set nodeName",
+        "func": "flow.set(\"nodeName\",\"Node6\")\nmsg.payload = flow.get(\"nodeName\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 120,
+        "wires": [
+            [
+                "b34d61166baa5932"
+            ]
+        ]
+    },
+    {
+        "id": "74cea553d660e0ae",
+        "type": "function",
+        "z": "1daf2959585bda76",
+        "name": "",
+        "func": "a = flow.get(\"nodeName\")\nmsg.payload = JSON.stringify({\"nodeName\":a , \"Voltage\": 12.6})\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 240,
+        "wires": [
+            [
+                "ba6a4917ec4787a5"
+            ]
+        ]
+    },
+    {
+        "id": "29f065a92b9dca4f",
+        "type": "delay",
+        "z": "1daf2959585bda76",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 260,
+        "y": 180,
+        "wires": [
+            [
+                "74cea553d660e0ae"
+            ]
+        ]
+    },
+    {
+        "id": "c3a8697cce6aa337",
+        "type": "ui_group",
+        "name": "Node 6",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 7,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "cf3b2373529d6dcb",
+        "type": "subflow",
+        "name": "Subflow 5",
+        "info": "",
+        "in": [
+            {
+                "x": 320,
+                "y": 260,
+                "wires": [
+                    {
+                        "id": "6018e6886bf03c45"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 780,
+                "y": 180,
+                "wires": [
+                    {
+                        "id": "b4629777c1487f65",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "1917c49cc046545f",
+        "type": "ui_text",
+        "z": "cf3b2373529d6dcb",
+        "group": "c1f4cc53fd58dd28",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 830,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "5a673bd478190e40",
+        "type": "ui_led",
+        "z": "cf3b2373529d6dcb",
+        "order": 1,
+        "group": "c1f4cc53fd58dd28",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 810,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "6cdbfb9598405904",
+        "type": "ui_artlessgauge",
+        "z": "cf3b2373529d6dcb",
+        "group": "c1f4cc53fd58dd28",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 820,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "80c84824438fc5e5",
+        "type": "function",
+        "z": "cf3b2373529d6dcb",
+        "name": "Voltage",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 220,
+        "wires": [
+            [
+                "90ae1350a8719a2e"
+            ]
+        ]
+    },
+    {
+        "id": "5befaa83bf9d0952",
+        "type": "function",
+        "z": "cf3b2373529d6dcb",
+        "name": "Last Update",
+        "func": "var count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 300,
+        "wires": [
+            [
+                "1917c49cc046545f"
+            ]
+        ]
+    },
+    {
+        "id": "3ebe17907483293e",
+        "type": "inject",
+        "z": "cf3b2373529d6dcb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 300,
+        "y": 320,
+        "wires": [
+            [
+                "5befaa83bf9d0952",
+                "28c8a79a98f0d405"
+            ]
+        ]
+    },
+    {
+        "id": "28c8a79a98f0d405",
+        "type": "function",
+        "z": "cf3b2373529d6dcb",
+        "name": "LED Status",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == flow.get(\"nodeName\")){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 340,
+        "wires": [
+            [
+                "5a673bd478190e40"
+            ]
+        ]
+    },
+    {
+        "id": "6018e6886bf03c45",
+        "type": "json",
+        "z": "cf3b2373529d6dcb",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 430,
+        "y": 220,
+        "wires": [
+            [
+                "80c84824438fc5e5",
+                "5befaa83bf9d0952",
+                "28c8a79a98f0d405",
+                "b4629777c1487f65"
+            ]
+        ]
+    },
+    {
+        "id": "90ae1350a8719a2e",
+        "type": "range",
+        "z": "cf3b2373529d6dcb",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 620,
+        "y": 260,
+        "wires": [
+            [
+                "6cdbfb9598405904"
+            ]
+        ]
+    },
+    {
+        "id": "9f0f37a8ce8829df",
+        "type": "inject",
+        "z": "cf3b2373529d6dcb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 290,
+        "y": 100,
+        "wires": [
+            [
+                "6de46fd93e78936c",
+                "0b2d47d8b5b2a4ee"
+            ]
+        ]
+    },
+    {
+        "id": "b4629777c1487f65",
+        "type": "function",
+        "z": "cf3b2373529d6dcb",
+        "name": "Voltage to DB",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b93a31842c4b836",
+        "type": "debug",
+        "z": "cf3b2373529d6dcb",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "6de46fd93e78936c",
+        "type": "function",
+        "z": "cf3b2373529d6dcb",
+        "name": "Set nodeName",
+        "func": "flow.set(\"nodeName\",\"Node5\")\nmsg.payload = flow.get(\"nodeName\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 100,
+        "wires": [
+            [
+                "9b93a31842c4b836"
+            ]
+        ]
+    },
+    {
+        "id": "6cedc71c391f8f17",
+        "type": "function",
+        "z": "cf3b2373529d6dcb",
+        "name": "",
+        "func": "a = flow.get(\"nodeName\")\nmsg.payload = JSON.stringify({\"nodeName\":a , \"Voltage\": 12.6})\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 220,
+        "wires": [
+            [
+                "6018e6886bf03c45"
+            ]
+        ]
+    },
+    {
+        "id": "0b2d47d8b5b2a4ee",
+        "type": "delay",
+        "z": "cf3b2373529d6dcb",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 280,
+        "y": 160,
+        "wires": [
+            [
+                "6cedc71c391f8f17"
+            ]
+        ]
+    },
+    {
+        "id": "c1f4cc53fd58dd28",
+        "type": "ui_group",
+        "name": "Node 5",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 6,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "d4d66e4cfdfd3b8c",
+        "type": "subflow",
+        "name": "Subflow 2",
+        "info": "",
+        "in": [
+            {
+                "x": 320,
+                "y": 280,
+                "wires": [
+                    {
+                        "id": "97d559f3d3f97be2"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 780,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "323ab887c9d3d9f3",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "b94e1a72c4e579c6",
+        "type": "ui_text",
+        "z": "d4d66e4cfdfd3b8c",
+        "group": "415553c6fb85601c",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 830,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "2b054768893b7d13",
+        "type": "ui_led",
+        "z": "d4d66e4cfdfd3b8c",
+        "order": 1,
+        "group": "415553c6fb85601c",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 810,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "9c61ecb101bae01a",
+        "type": "ui_artlessgauge",
+        "z": "d4d66e4cfdfd3b8c",
+        "group": "415553c6fb85601c",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 820,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "f26d6c36fe16f150",
+        "type": "function",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "Voltage",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 240,
+        "wires": [
+            [
+                "64eb718f2a771345"
+            ]
+        ]
+    },
+    {
+        "id": "e5f9861334950d89",
+        "type": "function",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "Last Update",
+        "func": "var count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 320,
+        "wires": [
+            [
+                "b94e1a72c4e579c6"
+            ]
+        ]
+    },
+    {
+        "id": "9e6e4e8c43689dc4",
+        "type": "inject",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 300,
+        "y": 340,
+        "wires": [
+            [
+                "e5f9861334950d89",
+                "6d66ea8737a09dde"
+            ]
+        ]
+    },
+    {
+        "id": "6d66ea8737a09dde",
+        "type": "function",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "LED Status",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == flow.get(\"nodeName\")){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 360,
+        "wires": [
+            [
+                "2b054768893b7d13"
+            ]
+        ]
+    },
+    {
+        "id": "97d559f3d3f97be2",
+        "type": "json",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 430,
+        "y": 240,
+        "wires": [
+            [
+                "f26d6c36fe16f150",
+                "e5f9861334950d89",
+                "6d66ea8737a09dde",
+                "323ab887c9d3d9f3"
+            ]
+        ]
+    },
+    {
+        "id": "64eb718f2a771345",
+        "type": "range",
+        "z": "d4d66e4cfdfd3b8c",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 620,
+        "y": 280,
+        "wires": [
+            [
+                "9c61ecb101bae01a"
+            ]
+        ]
+    },
+    {
+        "id": "c570b6d4332a9fc8",
+        "type": "inject",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 290,
+        "y": 120,
+        "wires": [
+            [
+                "828b8943769df60a",
+                "efed7691ca587e67"
+            ]
+        ]
+    },
+    {
+        "id": "323ab887c9d3d9f3",
+        "type": "function",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "Voltage to DB",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "989523d3f044172f",
+        "type": "debug",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "828b8943769df60a",
+        "type": "function",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "Set nodeName",
+        "func": "flow.set(\"nodeName\",\"Node2\")\nmsg.payload = flow.get(\"nodeName\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 120,
+        "wires": [
+            [
+                "989523d3f044172f"
+            ]
+        ]
+    },
+    {
+        "id": "11026c5f9ed9210d",
+        "type": "function",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "",
+        "func": "a = flow.get(\"nodeName\")\nmsg.payload = JSON.stringify({\"nodeName\":a , \"Voltage\": 12.6})\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 240,
+        "wires": [
+            [
+                "97d559f3d3f97be2"
+            ]
+        ]
+    },
+    {
+        "id": "efed7691ca587e67",
+        "type": "delay",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 280,
+        "y": 180,
+        "wires": [
+            [
+                "11026c5f9ed9210d"
+            ]
+        ]
+    },
+    {
+        "id": "415553c6fb85601c",
+        "type": "ui_group",
+        "z": "d4d66e4cfdfd3b8c",
+        "name": "Node2",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 3,
+        "disp": true,
+        "width": "3",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5e304daf39eec074",
+        "type": "subflow",
+        "name": "Subflow 4",
+        "info": "",
+        "in": [
+            {
+                "x": 300,
+                "y": 260,
+                "wires": [
+                    {
+                        "id": "d43b7487ceb7780f"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 760,
+                "y": 180,
+                "wires": [
+                    {
+                        "id": "0b15778d919f26ee",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "68855e67b05ae230",
+        "type": "ui_text",
+        "z": "5e304daf39eec074",
+        "group": "4ad4a79eec4369ce",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 810,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "75349270a30292c5",
+        "type": "ui_led",
+        "z": "5e304daf39eec074",
+        "order": 1,
+        "group": "4ad4a79eec4369ce",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 790,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b83774009c951af5",
+        "type": "ui_artlessgauge",
+        "z": "5e304daf39eec074",
+        "group": "4ad4a79eec4369ce",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 800,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "5d1e881aaa2be2ec",
+        "type": "function",
+        "z": "5e304daf39eec074",
+        "name": "Voltage",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 220,
+        "wires": [
+            [
+                "c09e00347f0b5985"
+            ]
+        ]
+    },
+    {
+        "id": "f35517754bdace2f",
+        "type": "function",
+        "z": "5e304daf39eec074",
+        "name": "Last Update",
+        "func": "var count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 300,
+        "wires": [
+            [
+                "68855e67b05ae230"
+            ]
+        ]
+    },
+    {
+        "id": "dcd021b1bb075f5c",
+        "type": "inject",
+        "z": "5e304daf39eec074",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 280,
+        "y": 320,
+        "wires": [
+            [
+                "f35517754bdace2f",
+                "bc6355909b89bda7"
+            ]
+        ]
+    },
+    {
+        "id": "bc6355909b89bda7",
+        "type": "function",
+        "z": "5e304daf39eec074",
+        "name": "LED Status",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == flow.get(\"nodeName\")){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 340,
+        "wires": [
+            [
+                "75349270a30292c5"
+            ]
+        ]
+    },
+    {
+        "id": "d43b7487ceb7780f",
+        "type": "json",
+        "z": "5e304daf39eec074",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 410,
+        "y": 220,
+        "wires": [
+            [
+                "5d1e881aaa2be2ec",
+                "f35517754bdace2f",
+                "bc6355909b89bda7",
+                "0b15778d919f26ee"
+            ]
+        ]
+    },
+    {
+        "id": "c09e00347f0b5985",
+        "type": "range",
+        "z": "5e304daf39eec074",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 600,
+        "y": 260,
+        "wires": [
+            [
+                "b83774009c951af5"
+            ]
+        ]
+    },
+    {
+        "id": "1e8829277307794e",
+        "type": "inject",
+        "z": "5e304daf39eec074",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 270,
+        "y": 100,
+        "wires": [
+            [
+                "8d42e78df8001342",
+                "6780677b8caa2330"
+            ]
+        ]
+    },
+    {
+        "id": "0b15778d919f26ee",
+        "type": "function",
+        "z": "5e304daf39eec074",
+        "name": "Voltage to DB",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "12b33c23535688ba",
+        "type": "debug",
+        "z": "5e304daf39eec074",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "8d42e78df8001342",
+        "type": "function",
+        "z": "5e304daf39eec074",
+        "name": "Set nodeName",
+        "func": "flow.set(\"nodeName\",\"Node4\")\nmsg.payload = flow.get(\"nodeName\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 100,
+        "wires": [
+            [
+                "12b33c23535688ba"
+            ]
+        ]
+    },
+    {
+        "id": "511e6851de170b17",
+        "type": "function",
+        "z": "5e304daf39eec074",
+        "name": "",
+        "func": "a = flow.get(\"nodeName\")\nmsg.payload = JSON.stringify({\"nodeName\":a , \"Voltage\": 12.6})\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 220,
+        "wires": [
+            [
+                "d43b7487ceb7780f"
+            ]
+        ]
+    },
+    {
+        "id": "6780677b8caa2330",
+        "type": "delay",
+        "z": "5e304daf39eec074",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 260,
+        "y": 160,
+        "wires": [
+            [
+                "511e6851de170b17"
+            ]
+        ]
+    },
+    {
+        "id": "4ad4a79eec4369ce",
+        "type": "ui_group",
+        "name": "Node 4",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 5,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "24dc22ca0c92ec0a",
+        "type": "subflow",
+        "name": "Subflow 3",
+        "info": "",
+        "in": [
+            {
+                "x": 300,
+                "y": 280,
+                "wires": [
+                    {
+                        "id": "ce16f46fdecb55af"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 760,
+                "y": 200,
+                "wires": [
+                    {
+                        "id": "d4bbb8674024ef90",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "99b60298640abbee",
+        "type": "ui_text",
+        "z": "24dc22ca0c92ec0a",
+        "group": "f826df36ab98b799",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 810,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "916c88903b109e33",
+        "type": "ui_led",
+        "z": "24dc22ca0c92ec0a",
+        "order": 1,
+        "group": "f826df36ab98b799",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 790,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "63325623185ab2fd",
+        "type": "ui_artlessgauge",
+        "z": "24dc22ca0c92ec0a",
+        "group": "f826df36ab98b799",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 800,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "ac4f85aebfbd115a",
+        "type": "function",
+        "z": "24dc22ca0c92ec0a",
+        "name": "Voltage",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 240,
+        "wires": [
+            [
+                "b3501feb7b355379"
+            ]
+        ]
+    },
+    {
+        "id": "289264a058322ca4",
+        "type": "function",
+        "z": "24dc22ca0c92ec0a",
+        "name": "Last Update",
+        "func": "var count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 320,
+        "wires": [
+            [
+                "99b60298640abbee"
+            ]
+        ]
+    },
+    {
+        "id": "142143259e48535f",
+        "type": "inject",
+        "z": "24dc22ca0c92ec0a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 280,
+        "y": 340,
+        "wires": [
+            [
+                "289264a058322ca4",
+                "d818372632ca3a26"
+            ]
+        ]
+    },
+    {
+        "id": "d818372632ca3a26",
+        "type": "function",
+        "z": "24dc22ca0c92ec0a",
+        "name": "LED Status",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == flow.get(\"nodeName\")){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 360,
+        "wires": [
+            [
+                "916c88903b109e33"
+            ]
+        ]
+    },
+    {
+        "id": "ce16f46fdecb55af",
+        "type": "json",
+        "z": "24dc22ca0c92ec0a",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 410,
+        "y": 240,
+        "wires": [
+            [
+                "ac4f85aebfbd115a",
+                "289264a058322ca4",
+                "d818372632ca3a26",
+                "d4bbb8674024ef90"
+            ]
+        ]
+    },
+    {
+        "id": "b3501feb7b355379",
+        "type": "range",
+        "z": "24dc22ca0c92ec0a",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 600,
+        "y": 280,
+        "wires": [
+            [
+                "63325623185ab2fd"
+            ]
+        ]
+    },
+    {
+        "id": "374d7e255e075f39",
+        "type": "inject",
+        "z": "24dc22ca0c92ec0a",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 270,
+        "y": 120,
+        "wires": [
+            [
+                "28fb51ce5faa43d5",
+                "c00999e5ff8e0146"
+            ]
+        ]
+    },
+    {
+        "id": "d4bbb8674024ef90",
+        "type": "function",
+        "z": "24dc22ca0c92ec0a",
+        "name": "Voltage to DB",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b580c7cd7f23d749",
+        "type": "debug",
+        "z": "24dc22ca0c92ec0a",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "28fb51ce5faa43d5",
+        "type": "function",
+        "z": "24dc22ca0c92ec0a",
+        "name": "Set nodeName",
+        "func": "flow.set(\"nodeName\",\"Node3\")\nmsg.payload = flow.get(\"nodeName\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 120,
+        "wires": [
+            [
+                "b580c7cd7f23d749"
+            ]
+        ]
+    },
+    {
+        "id": "b8f7c9090778e231",
+        "type": "function",
+        "z": "24dc22ca0c92ec0a",
+        "name": "",
+        "func": "a = flow.get(\"nodeName\")\nmsg.payload = JSON.stringify({\"nodeName\":a , \"Voltage\": 12.6})\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 240,
+        "wires": [
+            [
+                "ce16f46fdecb55af"
+            ]
+        ]
+    },
+    {
+        "id": "c00999e5ff8e0146",
+        "type": "delay",
+        "z": "24dc22ca0c92ec0a",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 260,
+        "y": 180,
+        "wires": [
+            [
+                "b8f7c9090778e231"
+            ]
+        ]
+    },
+    {
+        "id": "f826df36ab98b799",
+        "type": "ui_group",
+        "name": "Node 3",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 4,
+        "disp": true,
+        "width": 3,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "5f1ba7d06cd6b121",
+        "type": "subflow",
+        "name": "Subflow 1",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 300,
+                "y": 260,
+                "wires": [
+                    {
+                        "id": "c8298801122af992"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 760,
+                "y": 180,
+                "wires": [
+                    {
+                        "id": "5764122b1d1e1ad3",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "671fc349897537a9",
+        "type": "ui_text",
+        "z": "5f1ba7d06cd6b121",
+        "group": "1017f83a38e21cc1",
+        "order": 3,
+        "width": 3,
+        "height": 1,
+        "name": "",
+        "label": "Last Update",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 810,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "6e090edca38f3991",
+        "type": "ui_led",
+        "z": "5f1ba7d06cd6b121",
+        "order": 1,
+        "group": "1017f83a38e21cc1",
+        "width": 3,
+        "height": 1,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 790,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "7bf72b6829653e7b",
+        "type": "ui_artlessgauge",
+        "z": "5f1ba7d06cd6b121",
+        "group": "1017f83a38e21cc1",
+        "order": 2,
+        "width": 3,
+        "height": 3,
+        "name": "Voltage",
+        "icon": "iconify-emojione-monotone:battery",
+        "label": "Voltage",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "0",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#6e6e6e",
+        "style": "3,2",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "topic",
+        "inline": true,
+        "animate": true,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f21c1c",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#d4df3a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 55,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#1b8335",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#1b8335",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": true,
+        "diffCenter": "25",
+        "x": 800,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "48cc5e6b5518cbc3",
+        "type": "function",
+        "z": "5f1ba7d06cd6b121",
+        "name": "Voltage",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    if (msg.payload.Voltage > 12.3){\n        msg.topic = 12.2 + \"V\";\n    }\n    else{\n        msg.topic = msg.payload.Voltage + \"V\";\n    }\n    msg.payload = msg.payload.Voltage;\n    global.set(\"voltage\",msg.payload);\n    \n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 220,
+        "wires": [
+            [
+                "ab2f4bdedbd083f0"
+            ]
+        ]
+    },
+    {
+        "id": "835b1876b23210a9",
+        "type": "function",
+        "z": "5f1ba7d06cd6b121",
+        "name": "Last Update",
+        "func": "var count_secs = context.get(\"count_secs\") || 0;\nvar count_mins = context.get(\"count_mins\") || 0;\nvar count_hours = context.get(\"count_hours\") || 0;\nvar count_days = context.get(\"count_days\") || 0;\n\nif (msg.payload == \"countup\"){\n    count_secs++\n    if(count_secs >= 60){\n        count_mins ++\n        if(count_mins >= 60){\n            count_hours++\n            count_mins = 0;\n            if (count_hours >=24){\n                count_days++\n                count_hours = 0;\n            }\n        }\n        count_secs = 0;\n    }\n}\nelse if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    count_secs = 0;\n    count_mins = 0;\n    count_hours = 0;\n    count_days = 0;\n}\ncontext.set(\"count_secs\",count_secs);\ncontext.set(\"count_mins\",count_mins);\ncontext.set(\"count_hours\",count_hours);\ncontext.set(\"count_days\",count_days);\n\nmsg.payload = count_days + \"D \"\nmsg.payload += count_hours + \"h \" + count_mins + \"m \"\nmsg.payload += count_secs + \"s\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 300,
+        "wires": [
+            [
+                "671fc349897537a9"
+            ]
+        ]
+    },
+    {
+        "id": "dc3383571377ad22",
+        "type": "inject",
+        "z": "5f1ba7d06cd6b121",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "countup",
+        "payloadType": "str",
+        "x": 280,
+        "y": 320,
+        "wires": [
+            [
+                "835b1876b23210a9",
+                "08ade0d2dd6350cb"
+            ]
+        ]
+    },
+    {
+        "id": "08ade0d2dd6350cb",
+        "type": "function",
+        "z": "5f1ba7d06cd6b121",
+        "name": "LED Status",
+        "func": "var count = context.get(\"count\") || 0;\nvar status = context.get(\"status\") || false;\n\nif (msg.payload.nodeName == flow.get(\"nodeName\")){\n    status = true;\n    context.set(\"status\", status)\n    count = 0;\n    context.set(\"count\",count)\n}\nelse{\n    count++\n    context.set(\"count\",count)\n    if (count >= 10){\n        status = false;\n        context.set(\"status\", status)\n        count = 0;\n        context.set(\"count\",count)\n    }\n}\nmsg.payload = status;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 340,
+        "wires": [
+            [
+                "6e090edca38f3991"
+            ]
+        ]
+    },
+    {
+        "id": "c8298801122af992",
+        "type": "json",
+        "z": "5f1ba7d06cd6b121",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 410,
+        "y": 220,
+        "wires": [
+            [
+                "48cc5e6b5518cbc3",
+                "835b1876b23210a9",
+                "08ade0d2dd6350cb",
+                "5764122b1d1e1ad3"
+            ]
+        ]
+    },
+    {
+        "id": "ab2f4bdedbd083f0",
+        "type": "range",
+        "z": "5f1ba7d06cd6b121",
+        "minin": "8.8",
+        "maxin": "12.2",
+        "minout": "0",
+        "maxout": "100",
+        "action": "clamp",
+        "round": true,
+        "property": "payload",
+        "name": "",
+        "x": 600,
+        "y": 260,
+        "wires": [
+            [
+                "7bf72b6829653e7b"
+            ]
+        ]
+    },
+    {
+        "id": "d77f1760598a3a59",
+        "type": "inject",
+        "z": "5f1ba7d06cd6b121",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0.1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 270,
+        "y": 100,
+        "wires": [
+            [
+                "7140ffb67270e2d9",
+                "dcd388a313079fb5"
+            ]
+        ]
+    },
+    {
+        "id": "5764122b1d1e1ad3",
+        "type": "function",
+        "z": "5f1ba7d06cd6b121",
+        "name": "Voltage to DB",
+        "func": "if (msg.payload.nodeName == flow.get(\"nodeName\")){\n    return msg;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "89aa80ceaed38a21",
+        "type": "debug",
+        "z": "5f1ba7d06cd6b121",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "7140ffb67270e2d9",
+        "type": "function",
+        "z": "5f1ba7d06cd6b121",
+        "name": "Set nodeName",
+        "func": "flow.set(\"nodeName\",\"Node1\")\nmsg.payload = flow.get(\"nodeName\")\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 100,
+        "wires": [
+            [
+                "89aa80ceaed38a21"
+            ]
+        ]
+    },
+    {
+        "id": "57cd8d6316a32619",
+        "type": "function",
+        "z": "5f1ba7d06cd6b121",
+        "name": "",
+        "func": "a = flow.get(\"nodeName\")\nmsg.payload = JSON.stringify({\"nodeName\":a , \"Voltage\": 12.6})\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 260,
+        "y": 220,
+        "wires": [
+            [
+                "c8298801122af992"
+            ]
+        ]
+    },
+    {
+        "id": "dcd388a313079fb5",
+        "type": "delay",
+        "z": "5f1ba7d06cd6b121",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 260,
+        "y": 160,
+        "wires": [
+            [
+                "57cd8d6316a32619"
+            ]
+        ]
+    },
+    {
+        "id": "1017f83a38e21cc1",
+        "type": "ui_group",
+        "name": "Node1",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 2,
+        "disp": true,
+        "width": "3",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "7dfc3c702e35fbbc",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "order": 4,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "7c125f5ff4831fc9",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "24025c0b8a940909",
+        "type": "ui_time_scheduler",
+        "z": "7c125f5ff4831fc9",
+        "group": "8ed9768f2af8c1fd",
+        "name": "",
+        "startDay": 0,
+        "refresh": 60,
+        "devices": [
+            "TacMesh Nodes"
+        ],
+        "singleOff": false,
+        "onlySendChange": false,
+        "customPayload": false,
+        "eventMode": false,
+        "eventOptions": [],
+        "sendTopic": true,
+        "lat": "",
+        "lon": "",
+        "customContextStore": "",
+        "outputs": 2,
+        "order": 3,
+        "width": 6,
+        "height": 4,
+        "x": 270,
+        "y": 140,
+        "wires": [
+            [
+                "8d2e2235b80ee013",
+                "72813bd52b7a755c"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "f8c221f4eb841d02",
+        "type": "mqtt out",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "topic": "tacmesh/nodesettings",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "4d298a557d0f7d05",
+        "x": 600,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "576d62f4f5f8c0f7",
+        "type": "mqtt in",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "topic": "tacmesh/nodesettings",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "4d298a557d0f7d05",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 320,
+        "y": 360,
+        "wires": [
+            [
+                "702d978d0a07e797"
+            ]
+        ]
+    },
+    {
+        "id": "702d978d0a07e797",
+        "type": "debug",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "04a14408ee9b0bec",
+        "type": "debug",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 850,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "8d2e2235b80ee013",
+        "type": "function",
+        "z": "7c125f5ff4831fc9",
+        "name": "store arrays from ui scheduler to flow arrays",
+        "func": "msg.payload = JSON.parse(msg.payload);\nvar timers = msg.payload.timers;\nvar len = timers.length;\nvar startArray = [];\nvar stopArray = [];\n\nfor (let i = 0; i < len; i++){\n    \n    startArray[i] = timers[i].starttime/1000;\n    stopArray[i] = timers[i].endtime/1000;\n}\nflow.set(\"startArrays\",startArray)\nflow.set(\"stopArrays\",stopArray)\nflow.set(\"arraySize\", len)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 160,
+        "wires": [
+            [
+                "4939acb359e6e2dd",
+                "60c365d4793c8046"
+            ]
+        ]
+    },
+    {
+        "id": "ced1f437bfc0aca4",
+        "type": "mqtt out",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "topic": "tacmesh/mode",
+        "qos": "1",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "4d298a557d0f7d05",
+        "x": 580,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "c980566cfed4c6d0",
+        "type": "ui_dropdown",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "label": "Mode",
+        "tooltip": "Select the operation modes",
+        "place": "Select option",
+        "group": "8ed9768f2af8c1fd",
+        "order": 1,
+        "width": 6,
+        "height": 1,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Operation",
+                "value": "1",
+                "type": "str"
+            },
+            {
+                "label": "Standby",
+                "value": "2",
+                "type": "str"
+            },
+            {
+                "label": "Scheduled",
+                "value": "3",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 130,
+        "y": 320,
+        "wires": [
+            [
+                "5fcaa83006242101"
+            ]
+        ]
+    },
+    {
+        "id": "afbc1fc30bc3292f",
+        "type": "mqtt in",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "topic": "tacmesh/query",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "4d298a557d0f7d05",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "794249b1b8f59c1b"
+            ]
+        ]
+    },
+    {
+        "id": "98f72fd3a319ecbe",
+        "type": "function",
+        "z": "7c125f5ff4831fc9",
+        "name": "query message",
+        "func": "msg.getStatus = \"\"\nif (msg.payload.payload == \"query\"){\n    msg.getStatus = \"any\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 200,
+        "wires": [
+            [
+                "60c365d4793c8046",
+                "04a14408ee9b0bec"
+            ]
+        ]
+    },
+    {
+        "id": "794249b1b8f59c1b",
+        "type": "json",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 290,
+        "y": 200,
+        "wires": [
+            [
+                "98f72fd3a319ecbe"
+            ]
+        ]
+    },
+    {
+        "id": "60c365d4793c8046",
+        "type": "function",
+        "z": "7c125f5ff4831fc9",
+        "name": "send message to mqtt",
+        "func": "var date = new Date();\nmypayload = {\n    \"payload\" : {\n        \"starttime\" : flow.get(\"startArrays\"),\n        \"stoptime\": flow.get(\"stopArrays\"),\n        \"arraysize\": flow.get(\"arraySize\"),\n        \"timestamp\" : Math.floor(date.getTime() / 1000),\n        \"sleepinterval\" : flow.get(\"sleepinterval\")\n    }\n}\nmymode = {\n    \"payload\": flow.get(\"mode\")\n}\nreturn [mypayload,mymode];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 260,
+        "wires": [
+            [
+                "f8c221f4eb841d02"
+            ],
+            [
+                "ced1f437bfc0aca4"
+            ]
+        ]
+    },
+    {
+        "id": "c99346ae4f2162a3",
+        "type": "inject",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 260,
+        "wires": [
+            [
+                "60c365d4793c8046"
+            ]
+        ]
+    },
+    {
+        "id": "4939acb359e6e2dd",
+        "type": "debug",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 850,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "72813bd52b7a755c",
+        "type": "debug",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "5fcaa83006242101",
+        "type": "function",
+        "z": "7c125f5ff4831fc9",
+        "name": "set mode to flow",
+        "func": "msg.payload = JSON.parse(msg.payload);\nflow.set(\"mode\",msg.payload)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 320,
+        "wires": [
+            [
+                "7d3a0ece27fc26b8",
+                "60c365d4793c8046"
+            ]
+        ]
+    },
+    {
+        "id": "7d3a0ece27fc26b8",
+        "type": "debug",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "d4781606b0aaf61b",
+        "type": "ui_template",
+        "z": "7c125f5ff4831fc9",
+        "group": "",
+        "name": "Dashboard Theme : Modern Dark",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "format": "<div>\n    <link href=\"https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap\" rel=\"stylesheet\">\n    <style>\n        body {\n            --background: #212529;\n            /*--background: #53a399;*/\n            --on-background: white;\n            /*--surface: #2d3136;*/\n            /*--surface: #a3535a;*/\n            --surface: #0B504F;\n            --on-surface: white;\n            --primary: var(--nr-dashboard-widgetColor);\n            --on-primary: white;\n            --secondary: var(--nr-dashboard-groupTextColor);\n            --accent: red;\n            --radius-s: 8px;\n            --font-weight-m: 300;\n            --font-weight-m: 500;\n            --font-weight-l: 700;\n            --space-s: 8px;\n            --space-m: 16px;\n            --space-l: 32px;\n        }\n        #TacMesh_Node_cards > md-card > button{\n            font-size:26px;\n        }\n        \n        body.nr-dashboard-theme {\n            background-color: var(--background);\n            font-family: 'Montserrat', sans-serif;\n        }\n        .nr-dashboard-theme ui-card-panel {\n            background-color: var(--background);\n            border: 0;\n        }\n        .nr-dashboard-theme .nr-dashboard-button .md-button {\n            background-color: var(--primary);\n            border-radius: var(--radius-s);\n            padding: 8px !important;\n            line-height: inherit;\n            font-weight: var(--font-weight-l);\n            color: var(--on-primary);\n        }\n        .nr-dashboard-theme [ui-card-size=\"2x2\"].nr-dashboard-button .md-button {\n            display: flex;\n            flex-direction: column;\n            justify-content: center;\n            align-items: center;\n            white-space: pre-line;\n        }\n        \n        .nr-dashboard-theme .nr-dashboard-button .md-button ui-icon {\n                margin-bottom: 8px;\n        }\n        .nr-dashboard-theme .nr-dashboard-button .md-button:hover {\n            background-color: var(--secondary);\n        }\n        body.nr-dashboard-theme md-content md-card {\n            background-color: var(--surface);\n        }\n        md-card.md-default-theme, md-card {\n            border-radius: var(--radius-s);\n        }\n        .nr-dashboard-theme .nr-dashboard-gauge-titlel {\n            font-weight: var(--font-weight-l) !important;      \n        }\n        .nr-dashboard-theme ui-card-panel p.nr-dashboard-cardtitle {\n            font-weight: var(--font-weight-l);  \n            text-transform: capitalize;\n            color: var(--on-background);\n        }\n        .nr-dashboard-cardpanel > p {\n            margin-left: 0;\n            padding-left: 16px;\n        }\n        body.nr-dashboard-theme md-toolbar {\n            background-color: var(--surface);\n        }\n        .md-default-theme .md-datepicker-calendar, .md-datepicker-calendar,\n        .md-default-theme .md-calendar, .md-calendar{\n            background-color: var(--surface);\n            color: var(--on-surface);\n        }\n        .md-default-theme .md-datepicker-calendar-pane, .md-datepicker-calendar-pane{\n            border: 0;\n        }\n        .md-default-theme .md-calendar-month-label md-icon, .md-calendar-month-label md-icon, .md-default-theme .md-datepicker-input, .md-datepicker-input {\n            color: var(--on-surface);\n        }\n        body.nr-dashboard-theme md-content md-card {\n            color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-numeric .value {\n            background-color: var(--surface);\n            color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-dropdown md-select .md-select-value, .nr-dashboard-theme .nr-dashboard-dropdown md-select .md-select-value.md-select-placeholder {\n            color: var(--on-surface);\n            border-color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-dropdown .md-select-icon {\n            color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-date-picker md-input-container .md-input {\n            color: var(--on-surface);\n            border-color: var(--on-surface);\n        }\n        .nr-dashboard-theme .nr-dashboard-date-picker .md-datepicker-triangle-button .md-datepicker-expand-triangle {\n            border-top-color: var(--on-surface);\n        }\n        body.nr-dashboard-theme md-sidenav {\n            background-color: var(--surface);\n        }\n        md-list-item._md-button-wrap > div.md-button:first-child, md-list-item .md-list-item-inner {\n            background-color: var(--surface);\n        }\n    </style>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "global",
+        "className": "",
+        "x": 180,
+        "y": 960,
+        "wires": [
+            []
+        ],
+        "icon": "node-red-dashboard/ui_colour_picker.png",
+        "info": "# Modern Dark Theme for node-red-dashboard\n\nInspired by Victor Lucachi with his [Node Red Dashboard Concept](https://dribbble.com/shots/10356530-Node-Red-Dashboard-Concept) on Dribbble. Thank you for your work.\n\n## Customize\n\n1. Go on dashboard customisation tab (At the right of Debug Console).\n2. Select the style `Dark`.\n3. Pick the color you want. Example `#66B5F8`\n\n## Buttons\n\nUse `2x2` size for buttons with icon and text on the screenshot"
+    },
+    {
+        "id": "28d8b9e9bd677ebb",
+        "type": "ui_template",
+        "z": "7c125f5ff4831fc9",
+        "group": "8007d2a3a1631677",
+        "name": "",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "format": "<script src=\"https://code.iconify.design/2/2.2.1/iconify.min.js\"></script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "global",
+        "className": "",
+        "x": 100,
+        "y": 920,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0b4a10a326283278",
+        "type": "inject",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "{\"timers\":[{\"starttime\":1666929600000,\"days\":[1,1,1,1,1,1,1],\"output\":\"0\",\"endtime\":1666933200000}],\"settings\":{}}",
+        "payloadType": "str",
+        "x": 110,
+        "y": 160,
+        "wires": [
+            [
+                "24025c0b8a940909",
+                "8d2e2235b80ee013"
+            ]
+        ]
+    },
+    {
+        "id": "7674371f1420dc62",
+        "type": "subflow:5f1ba7d06cd6b121",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 1",
+        "x": 340,
+        "y": 500,
+        "wires": [
+            [
+                "fa6f6f68ccce73ca"
+            ]
+        ]
+    },
+    {
+        "id": "f3ec1d13296bea62",
+        "type": "mqtt in",
+        "z": "7c125f5ff4831fc9",
+        "name": "tacmesh/battery",
+        "topic": "tacmesh/battery",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "4d298a557d0f7d05",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 500,
+        "wires": [
+            [
+                "7674371f1420dc62",
+                "84067e45826d5e27",
+                "ba0eba10c354f9a6",
+                "46bac27aa460bd2b",
+                "2f378337c43f0dba",
+                "9990ca325ff71085",
+                "de485c9395977ab9",
+                "f26ae53f478d4dca",
+                "0c81d53ce1f8dccb",
+                "d7be9de6a9207e55",
+                "65b69242112de4f7"
+            ]
+        ]
+    },
+    {
+        "id": "96c7aa65f5b6f4b1",
+        "type": "ui_dropdown",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "label": "Sleep Interval",
+        "tooltip": "Select Interval",
+        "place": "Select option",
+        "group": "8ed9768f2af8c1fd",
+        "order": 2,
+        "width": 6,
+        "height": 1,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "1 Minute",
+                "value": "1",
+                "type": "str"
+            },
+            {
+                "label": "3 Minute",
+                "value": "3",
+                "type": "str"
+            },
+            {
+                "label": "5 Minute",
+                "value": "5",
+                "type": "str"
+            },
+            {
+                "label": "10 Minute",
+                "value": "10",
+                "type": "str"
+            },
+            {
+                "label": "15 Minute",
+                "value": "15",
+                "type": "str"
+            },
+            {
+                "label": "20 Minute",
+                "value": "20",
+                "type": "str"
+            },
+            {
+                "label": "30 Minute",
+                "value": "30",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 120,
+        "y": 80,
+        "wires": [
+            [
+                "8d5e721220d2c5a1"
+            ]
+        ]
+    },
+    {
+        "id": "8d5e721220d2c5a1",
+        "type": "function",
+        "z": "7c125f5ff4831fc9",
+        "name": "set flow sleepinterval",
+        "func": "flow.set(\"sleepinterval\",msg.payload)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 80,
+        "wires": [
+            [
+                "4051d8da5a577133",
+                "60c365d4793c8046"
+            ]
+        ]
+    },
+    {
+        "id": "4051d8da5a577133",
+        "type": "debug",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 850,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "56a4abe1633f4154",
+        "type": "inject",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "1",
+        "payloadType": "str",
+        "x": 110,
+        "y": 40,
+        "wires": [
+            [
+                "8d5e721220d2c5a1"
+            ]
+        ]
+    },
+    {
+        "id": "ba0eba10c354f9a6",
+        "type": "subflow:24dc22ca0c92ec0a",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 3",
+        "x": 340,
+        "y": 580,
+        "wires": [
+            [
+                "fa6f6f68ccce73ca"
+            ]
+        ]
+    },
+    {
+        "id": "46bac27aa460bd2b",
+        "type": "subflow:5e304daf39eec074",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 4",
+        "x": 340,
+        "y": 620,
+        "wires": [
+            [
+                "fa6f6f68ccce73ca"
+            ]
+        ]
+    },
+    {
+        "id": "84067e45826d5e27",
+        "type": "subflow:d4d66e4cfdfd3b8c",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 2",
+        "x": 340,
+        "y": 540,
+        "wires": [
+            [
+                "fa6f6f68ccce73ca"
+            ]
+        ]
+    },
+    {
+        "id": "2f378337c43f0dba",
+        "type": "subflow:cf3b2373529d6dcb",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 5",
+        "x": 340,
+        "y": 660,
+        "wires": [
+            [
+                "fa6f6f68ccce73ca"
+            ]
+        ]
+    },
+    {
+        "id": "9990ca325ff71085",
+        "type": "subflow:1daf2959585bda76",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 6",
+        "x": 340,
+        "y": 700,
+        "wires": [
+            [
+                "fa6f6f68ccce73ca"
+            ]
+        ]
+    },
+    {
+        "id": "de485c9395977ab9",
+        "type": "subflow:e8533a8d7456ba12",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 7",
+        "x": 340,
+        "y": 740,
+        "wires": [
+            [
+                "fa6f6f68ccce73ca"
+            ]
+        ]
+    },
+    {
+        "id": "f26ae53f478d4dca",
+        "type": "subflow:de572c5bbb22ac12",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 8",
+        "x": 340,
+        "y": 780,
+        "wires": [
+            [
+                "fa6f6f68ccce73ca"
+            ]
+        ]
+    },
+    {
+        "id": "d7be9de6a9207e55",
+        "type": "subflow:9f10e235415e4162",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 10",
+        "x": 340,
+        "y": 860,
+        "wires": [
+            [
+                "fa6f6f68ccce73ca"
+            ]
+        ]
+    },
+    {
+        "id": "0c81d53ce1f8dccb",
+        "type": "subflow:92ecd57e6257a18f",
+        "z": "7c125f5ff4831fc9",
+        "name": "Node 9",
+        "x": 340,
+        "y": 820,
+        "wires": [
+            [
+                "fa6f6f68ccce73ca"
+            ]
+        ]
+    },
+    {
+        "id": "4fd78ec425e79e7c",
+        "type": "debug",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "fa6f6f68ccce73ca",
+        "type": "function",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "func": "var tablename = \"BatteryVoltage\"\nvar timestamp = Date.now()\nvar voltage = msg.payload.Voltage\nvar name = msg.payload.nodeName\n\nmsg.topic = 'INSERT INTO ' + tablename + '(' + name + ',timestamp) VALUES ('+ voltage +',' + timestamp + ')'\n// msg.topic = 'INSERT INTO ' + tablename + '(voltage,timestamp) VALUES (`voltage`,`timestamp`)'\n// msg.payload = { 'timestamp': Date.now(), 'voltage': 12.21 };\ndelete msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 660,
+        "wires": [
+            [
+                "dc5ef14869092352",
+                "4fd78ec425e79e7c"
+            ]
+        ]
+    },
+    {
+        "id": "dc5ef14869092352",
+        "type": "mysql",
+        "z": "7c125f5ff4831fc9",
+        "mydb": "3351a44e35f55be0",
+        "name": "",
+        "x": 820,
+        "y": 660,
+        "wires": [
+            [
+                "4fd78ec425e79e7c"
+            ]
+        ]
+    },
+    {
+        "id": "e957e669e05e987b",
+        "type": "inject",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"nodeName\":\"Node7\",\"Voltage\":11.1}",
+        "payloadType": "str",
+        "x": 630,
+        "y": 600,
+        "wires": [
+            [
+                "986fd7bdfd69651b"
+            ]
+        ]
+    },
+    {
+        "id": "986fd7bdfd69651b",
+        "type": "json",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 750,
+        "y": 600,
+        "wires": [
+            [
+                "fa6f6f68ccce73ca"
+            ]
+        ]
+    },
+    {
+        "id": "a5413a79337f2f47",
+        "type": "mqtt in",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "topic": "tacmesh/mode",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "4d298a557d0f7d05",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 320,
+        "y": 400,
+        "wires": [
+            [
+                "702d978d0a07e797"
+            ]
+        ]
+    },
+    {
+        "id": "2abb173b9c406096",
+        "type": "debug",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1070,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "0602ef332a5e4dba",
+        "type": "mqtt in",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "topic": "tacmesh/logs",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "4d298a557d0f7d05",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 750,
+        "y": 340,
+        "wires": [
+            [
+                "9c77a695927669c0"
+            ]
+        ]
+    },
+    {
+        "id": "65b69242112de4f7",
+        "type": "debug",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "197a1fb7393467dc",
+        "type": "function",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "func": "var tablename = \"Logs\"\nvar timestamp = Date.now()\nvar message = msg.payload.payload\nvar name = msg.payload.nodeName\n\n// msg.topic = 'INSERT INTO ' + tablename + '(nodename,payload,timestamp) VALUES ('+ '\"' + name + '\"' + ',' + '\"' + message + '\"' +',' + timestamp + ')'\nmsg.topic = 'INSERT INTO ' + tablename + '(nodename,payload,timestamp) VALUES ('+ '\"' + name + '\"' + ',' + JSON.stringify(message) +',' + timestamp + ')'\ndelete msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 400,
+        "wires": [
+            [
+                "81191fc537d39069",
+                "2abb173b9c406096"
+            ]
+        ]
+    },
+    {
+        "id": "81191fc537d39069",
+        "type": "mysql",
+        "z": "7c125f5ff4831fc9",
+        "mydb": "3351a44e35f55be0",
+        "name": "",
+        "x": 1000,
+        "y": 400,
+        "wires": [
+            [
+                "e3971447e1c7d3b9"
+            ]
+        ]
+    },
+    {
+        "id": "e3971447e1c7d3b9",
+        "type": "debug",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1170,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "9c77a695927669c0",
+        "type": "json",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 930,
+        "y": 340,
+        "wires": [
+            [
+                "2abb173b9c406096",
+                "197a1fb7393467dc"
+            ]
+        ]
+    },
+    {
+        "id": "8ed9768f2af8c1fd",
+        "type": "ui_group",
+        "name": "Settings",
+        "tab": "7dfc3c702e35fbbc",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4d298a557d0f7d05",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "8007d2a3a1631677",
+        "type": "ui_group",
+        "name": "Temperature & Humidity",
+        "tab": "65dee57ed9168e61",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "3351a44e35f55be0",
+        "type": "MySQLdatabase",
+        "name": "TacMeshControllerDB",
+        "host": "localhost",
+        "port": "3306",
+        "db": "TacMeshController",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "65dee57ed9168e61",
+        "type": "ui_tab",
+        "name": "LivingRoom",
+        "icon": "iconify-iconoir:two-seater-sofa",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    }
+]
