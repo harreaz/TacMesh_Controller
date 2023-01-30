@@ -18,7 +18,7 @@ void updateTime(int &update_year,
                 int &update_hour,
                 int &update_minutes,
                 int &update_seconds) {
-  DateTime updateRTC = updatetime + 28800; // 28800 is a fixed value in seconds for GMT +8 time
+  DateTime updateRTC = updatetime + 28800; // 28800 is a fixed value in seconds for GMT +8 time, updatetime is variable of unix timestamp received from mqtt
   update_year = updateRTC.year();
   update_month = updateRTC.month();
   update_day = updateRTC.day();
@@ -57,12 +57,11 @@ bool compareTime(byte &arraysize_address, byte &starttime_address, byte &stoptim
   // get the value of starttime stored in EEPROM based on arraysize, and store to starttimearray
   //  readingTimestamp(arraysize, default_starttime_address, default_stoptime_address);
   readingTimestamp(arraysize, starttime_address, stoptime_address);
-  int n = 0;  // define n as counter
 
-  while (true) {
+  for (int i = 0; i < arraysize; i++) {
     // attach a variable to the starttime array starting from the first array
-    unsigned long starttime = starttimearray[n] + 28800;  // +28800 is a constant for +8 utc
-    unsigned long stoptime = stoptimearray[n] + 28800;    // +28800 is a constant for +8 utc
+    unsigned long starttime = starttimearray[i] + 28800;  // +28800 is a constant for +8 utc
+    unsigned long stoptime = stoptimearray[i] + 28800;    // +28800 is a constant for +8 utc
 
     DateTime turnontime = starttime;
     hour = turnontime.hour();                                      // get hour from rtc
@@ -106,7 +105,7 @@ bool compareTime(byte &arraysize_address, byte &starttime_address, byte &stoptim
       break;
 
     } else if (timenowinsecs > turnofftimeinsecs) { // if time now has passed the stop time on current array index
-      Serial.println ("Time has passed schedule time on index : " + String(n));
+      Serial.println ("Time has passed schedule time on index : " + String(i));
       Serial.print("Time Now = ");
       Serial.println(String(timenow.hour()) + ":" + String(timenow.minute()) + ":" + String(timenow.second()));
       Serial.print("Time to ON = ");
@@ -114,11 +113,8 @@ bool compareTime(byte &arraysize_address, byte &starttime_address, byte &stoptim
       Serial.print("Time to OFF = ");
       Serial.println(String(turnofftime.hour()) + ":" + String(turnofftime.minute()) + ":" + String(turnofftime.second()));
       Serial.println("");
-      if (n < arraysize - 1) { // if the n number is still lower than the array size, then n + 1 and see the next index of the array
-        n++;
-      } else { // else if the n number is the same or larger than the arraysize, then time now has passed all timers in schedule
-        timediff = 999999; // set timediff as maximum
-        n = 0; // reset n value
+      if (i == arraysize - 1) {
+        timediff = 999999;
         scheduleontime = false;
         break;
       }
