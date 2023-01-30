@@ -30,11 +30,12 @@
 //              0011 - (20.dec.22) - created String jsonPayload(String payload, String Hostname), that converts the passed arguments to json format
 //              0012 - (20.dec.22) - node will publish to mqtt on logs topic when connected and going to sleep
 //              0013 - (21.dec.22) - node will publish to mqtt on logs topic when received an mqtt callback update from server
+//              0014 - (26.jan.23) - changed in compare_time.ino, instead of using while loop replace with for statement to compare time with current index in an array
 //             ----------------------------------------------------------------------------------------------
 //
 //Author          : Mohd Danial Hariz Bin Norazam (393)
 //Supervisor      : Ahmad Bahari Nizam B. Abu Bakar.
-//Current Version : Version 2.0.5
+//Current Version : Version 2.0.6
 //
 //-------------------------------------------------------------------------------------------------------------
 //                                          History Version
@@ -44,6 +45,7 @@
 //Version - 2.0.3 = (0005,0006,0007,0008,0009)
 //Version - 2.0.4 = (0010)
 //Version - 2.0.5 = (0011,0012,0013)
+//Version - 2.0.6 = (0014)
 
 #include <ArduinoJson.h>
 #include "netconfig.h"
