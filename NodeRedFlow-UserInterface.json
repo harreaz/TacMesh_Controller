@@ -4351,7 +4351,7 @@
         "id": "28d8b9e9bd677ebb",
         "type": "ui_template",
         "z": "7c125f5ff4831fc9",
-        "group": "8007d2a3a1631677",
+        "group": "",
         "name": "",
         "order": 8,
         "width": 0,
@@ -4743,7 +4743,7 @@
         ],
         "repeat": "",
         "crontab": "",
-        "once": true,
+        "once": false,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "{\"nodeName\":\"Node7\",\"Voltage\":11.1}",
@@ -4917,6 +4917,46 @@
         ]
     },
     {
+        "id": "27271bfa9f118a85",
+        "type": "ui_ui_control",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "events": "all",
+        "x": 740,
+        "y": 860,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bd5129db6ddd8ac9",
+        "type": "ui_button",
+        "z": "7c125f5ff4831fc9",
+        "name": "",
+        "group": "8ed9768f2af8c1fd",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "button",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 530,
+        "y": 860,
+        "wires": [
+            [
+                "27271bfa9f118a85"
+            ]
+        ]
+    },
+    {
         "id": "8ed9768f2af8c1fd",
         "type": "ui_group",
         "name": "Settings",
@@ -4954,17 +4994,6 @@
         "sessionExpiry": ""
     },
     {
-        "id": "8007d2a3a1631677",
-        "type": "ui_group",
-        "name": "Temperature & Humidity",
-        "tab": "65dee57ed9168e61",
-        "order": 1,
-        "disp": true,
-        "width": 6,
-        "collapse": false,
-        "className": ""
-    },
-    {
         "id": "3351a44e35f55be0",
         "type": "MySQLdatabase",
         "name": "TacMeshControllerDB",
@@ -4973,14 +5002,5 @@
         "db": "TacMeshController",
         "tz": "",
         "charset": "UTF8"
-    },
-    {
-        "id": "65dee57ed9168e61",
-        "type": "ui_tab",
-        "name": "LivingRoom",
-        "icon": "iconify-iconoir:two-seater-sofa",
-        "order": 3,
-        "disabled": false,
-        "hidden": false
     }
 ]
